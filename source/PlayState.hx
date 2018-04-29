@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.ui.FlxButton;
+import flixel.math.FlxRect;
 
 import openfl.Lib;
 
@@ -13,6 +14,8 @@ class PlayState extends FlxState
     private static var INFO_Y : Float = 1020;
     private static var INFO_WIDTH : Int = 83;
     private static var INFO_HEIGHT : Int = 83;
+
+    private var slider : Slider;
 
     override public function create() : Void {
         super.create();
@@ -26,6 +29,9 @@ class PlayState extends FlxState
         add(infoButton);
 
         var dotsIllusion = new DotsIllusion(this);
+
+        // Create sliders
+        slider = new Slider(this, new FlxRect(1400, 425, 100, 420), this.sliderChanged, 1, 30, 1, 3, 5);
     }
 
     override public function onFocusLost() : Void {
@@ -36,6 +42,7 @@ class PlayState extends FlxState
 
     override public function update(elapsed : Float) : Void {
         checkExitKey();
+        checkMouseEvents();
 
         super.update(elapsed);
     }
@@ -48,5 +55,21 @@ class PlayState extends FlxState
         if (FlxG.keys.enabled && FlxG.keys.pressed.ESCAPE) {
             Lib.close();
         }
+    }
+
+    private function checkMouseEvents() : Void {
+        slider.mouseMove(FlxG.mouse.getScreenPosition());
+
+        if (FlxG.mouse.justPressed) {
+            slider.mouseDown(FlxG.mouse.getScreenPosition());
+        }
+
+        if (FlxG.mouse.justReleased) {
+            slider.mouseUp(FlxG.mouse.getScreenPosition());
+        }
+    }
+
+    private function sliderChanged(newValue : Float) {
+
     }
 }
