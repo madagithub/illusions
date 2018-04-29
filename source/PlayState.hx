@@ -24,6 +24,8 @@ class PlayState extends FlxState
         var infoButton = new FlxButton(INFO_X - INFO_WIDTH / 2, INFO_Y - INFO_HEIGHT / 2, "", toggleInfo);
         infoButton.loadGraphic("assets/images/infoSpritesheet.png", true, INFO_WIDTH, INFO_HEIGHT);
         add(infoButton);
+
+        var dotsIllusion = new DotsIllusion(this);
     }
 
     override public function onFocusLost() : Void {
