@@ -52,8 +52,6 @@ class DotsIllusionBackground extends FlxSprite {
     }
 
     private function drawCuttingLine(radian : Float) {
-    	trace(radian);
-
     	var centerX : Float = this.illusionWidth / 2;
     	var centerY : Float = this.illusionHeight / 2;
 

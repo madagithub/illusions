@@ -15,6 +15,7 @@ class Slider {
 	private static var MIN_ARCH_WIDTH : Int = 10;
 	private static var MAX_ARCH_WIDTH : Int = 60;
 	private static var SLIDER_TRIANGLE_Y : Int = 43;
+	private static var SLIDER_HANDLE_X_OFFSET : Int = -4;
 
 	private var state : FlxState;
 	private var name : String;
@@ -36,8 +37,8 @@ class Slider {
 		// Render archs
 		var currArchPosition : FlxPoint = new FlxPoint(boundingRect.left + boundingRect.width / 2, boundingRect.bottom);
 		var currArchValue : Float = minValue;
-		var archsNum : Int = Std.int((maxValue - minValue) / archDiff);
-		var yArchDiff : Float = boundingRect.height / archsNum;
+		var archsNum : Int = Std.int((maxValue - minValue) / archDiff + 1);
+		var yArchDiff : Float = boundingRect.height / (archsNum - 1);
 		var archWidthDiff : Float = (MAX_ARCH_WIDTH - MIN_ARCH_WIDTH) / (archsNum - 1);
 		var currArchWidth : Float = MIN_ARCH_WIDTH;
 
@@ -46,16 +47,22 @@ class Slider {
 			var newArch : Arch = { sprite: archSprite, value: currArchValue };
 			this.setArchAsset(newArch, startValue);
 
-			archSprite.x = currArchPosition.x - currArchWidth;
+			var scaleX : Float = currArchWidth / archSprite.width;
+
+			// NOTE: If scaling was done only to the right, we would just need to put the sprite in currArchPosition.x - currArchWidth
+			// But since scaling scales both left and right, we will need to calculate the pixels added/removed and fix the position
+			// by moving half of those added/removed pixels to the sprite position
+			archSprite.x = currArchPosition.x - currArchWidth + (scaleX - 1) * archSprite.width / 2;
 			archSprite.y = currArchPosition.y - archSprite.height / 2;
-			archSprite.scale.set(currArchWidth / archSprite.width, 1);
+
+			archSprite.scale.set(scaleX, 1);
 			this.state.add(archSprite);
 
 			if (newArch.value == startValue) {
 				// Render slider handle
 				this.sliderHandle = new FlxSprite();
 				this.sliderHandle.loadGraphic("assets/images/slider.png");
-				this.sliderHandle.x = currArchPosition.x;
+				this.sliderHandle.x = currArchPosition.x + SLIDER_HANDLE_X_OFFSET;
 				this.sliderHandle.y = newArch.sprite.y - SLIDER_TRIANGLE_Y;
 				this.state.add(sliderHandle);
 				this.selectedArch = newArch;
