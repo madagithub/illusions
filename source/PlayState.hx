@@ -56,8 +56,8 @@ class PlayState extends FlxState
 
         // Create sliders
         sliders = new Array<Slider>();
-        sliders.push(new Slider(this, "slider1", new FlxRect(1525, 471, 100, 377), this.sliderChanged, 1, 30, 1, 5, 5));
-        sliders.push(new Slider(this, "slider2", new FlxRect(1733, 471, 100, 377), this.sliderChanged, -5, 40, 1, 12, 12));
+        sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 1, 30, 1, 5, 5));
+        sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, -5, 40, 1, 12, 12));
     }
 
     override public function onFocusLost() : Void {

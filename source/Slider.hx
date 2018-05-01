@@ -30,7 +30,6 @@ class Slider {
 	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
 		this.state = state;
 		this.name = name;
-		this.boundingRect = boundingRect;
 		this.limitValue = limitValue;
 		this.onSliderValueChanged = onSliderValueChanged;
 
@@ -76,6 +75,13 @@ class Slider {
 
 			archs.push(newArch);
 		}
+
+		// Add part of handler that can move above and below archs as included in bounding rect
+		// so it will react on mouse over even if on minimum or maximum arch
+		this.boundingRect = new FlxRect(boundingRect.x, 
+			boundingRect.y - SLIDER_TRIANGLE_Y, 
+			boundingRect.width, 
+			boundingRect.height + SLIDER_TRIANGLE_Y + (this.sliderHandle.height - SLIDER_TRIANGLE_Y));
 	}
 
 	public function mouseDown(position : FlxPoint) {
