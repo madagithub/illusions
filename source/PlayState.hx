@@ -73,6 +73,6 @@ class PlayState extends FlxState
 
     private function sliderChanged(sliderName : String, newValue : Float) {
         trace("Name: " + sliderName + ", Value: " + newValue);
-        //dotsIllusion.sliderChanged(sliderName, newValue);
+        dotsIllusion.sliderChanged(sliderName, newValue);
     }
 }

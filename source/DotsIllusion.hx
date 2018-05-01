@@ -28,6 +28,8 @@ class DotsIllusion {
 	];
 
 	private var state : FlxState;
+	private var dotsAndCrossCanvas : FlxSprite;
+	private var dotsSize : Int;
 
 	public function new(state : FlxState) : Void {
 		this.state = state;
@@ -35,26 +37,54 @@ class DotsIllusion {
         background.setCenter(ILLUSION_X, ILLUSION_Y);
         state.add(background);
 
-        // Create dots
-        var canvas : FlxSprite = new FlxSprite();
-        canvas.makeGraphic(ILLUSION_WIDTH, ILLUSION_HEIGHT, FlxColor.TRANSPARENT, true);
+        // Create and position dots and cross canvas
+        this.dotsAndCrossCanvas = new FlxSprite();
+        this.dotsAndCrossCanvas.makeGraphic(ILLUSION_WIDTH, ILLUSION_HEIGHT, FlxColor.TRANSPARENT, true);
+        this.dotsAndCrossCanvas.x = ILLUSION_X - ILLUSION_WIDTH / 2;
+        this.dotsAndCrossCanvas.y = ILLUSION_Y - ILLUSION_HEIGHT / 2;
 
-        // Draw cross
-        var corssLineStyle : LineStyle = { color : FlxColor.GRAY, thickness : 2 };
-        canvas.drawLine(ILLUSION_WIDTH / 2 - CROSS_SIZE  / 2, ILLUSION_HEIGHT / 2, 
-        	ILLUSION_WIDTH / 2 + CROSS_SIZE  / 2, ILLUSION_HEIGHT / 2, corssLineStyle);
-        canvas.drawLine(ILLUSION_WIDTH / 2, ILLUSION_HEIGHT / 2 - CROSS_SIZE / 2, 
-        	ILLUSION_WIDTH / 2, ILLUSION_HEIGHT / 2 + CROSS_SIZE / 2, corssLineStyle);
+        this.dotsSize = DOTS_RADIUS;
 
-        canvas.x = ILLUSION_X - ILLUSION_WIDTH / 2;
-        canvas.y = ILLUSION_Y - ILLUSION_HEIGHT / 2;
-        for (dot in DOTS_POSITIONS) {
-        	drawCircleWithCenterAndRadius(canvas, new FlxPoint(ILLUSION_WIDTH / 2, ILLUSION_HEIGHT / 2), dot, DOTS_RADIUS);
-        }
-        this.state.add(canvas);
+        this.drawCross();
+        this.drawDots();
+
+        this.state.add(this.dotsAndCrossCanvas);
 
         // Start background infinite spin
         FlxTween.angle(background, 0, 360, FULL_CIRCLE_ROTATION_SECONDS, { type: FlxTween.LOOPING});
+    }
+
+    public function sliderChanged(name : String, value : Float) {
+    	//TODO: Constants for slider names!
+    	if (name == "slider1") {
+    		this.dotsSize = Std.int(value);
+    	} else if (name == "slider2") {
+
+    	}
+
+    	this.redraw();
+    }
+
+    private function redraw() {
+    	// Remove all previous drawings
+    	this.dotsAndCrossCanvas.fill(FlxColor.TRANSPARENT);
+
+    	this.drawCross();
+    	this.drawDots();
+    }
+
+    private function drawCross() {
+        var corssLineStyle : LineStyle = { color : FlxColor.GRAY, thickness : 2 };
+        this.dotsAndCrossCanvas.drawLine(ILLUSION_WIDTH / 2 - CROSS_SIZE  / 2, ILLUSION_HEIGHT / 2, 
+        	ILLUSION_WIDTH / 2 + CROSS_SIZE  / 2, ILLUSION_HEIGHT / 2, corssLineStyle);
+        this.dotsAndCrossCanvas.drawLine(ILLUSION_WIDTH / 2, ILLUSION_HEIGHT / 2 - CROSS_SIZE / 2, 
+        	ILLUSION_WIDTH / 2, ILLUSION_HEIGHT / 2 + CROSS_SIZE / 2, corssLineStyle);
+    }
+
+    private function drawDots() {
+    	for (dot in DOTS_POSITIONS) {
+        	drawCircleWithCenterAndRadius(this.dotsAndCrossCanvas, new FlxPoint(ILLUSION_WIDTH / 2, ILLUSION_HEIGHT / 2), dot, this.dotsSize);
+        }
     }
 
     private function drawCircleWithCenterAndRadius(canvas : FlxSprite, center : FlxPoint, diff : FlxPoint, radius : Float) {

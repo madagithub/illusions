@@ -59,6 +59,8 @@ class Slider {
 				this.sliderHandle.y = newArch.sprite.y - SLIDER_TRIANGLE_Y;
 				this.state.add(sliderHandle);
 				this.selectedArch = newArch;
+
+				this.onSliderValueChanged(this.name, newArch.value);
 			}
 
 			currArchWidth += archWidthDiff;
@@ -79,13 +81,6 @@ class Slider {
 
 	public function mouseUp(position : FlxPoint) {
 		this.updateSliderImage(position);
-
-		// Send new value event, should happen only on mouse up if it was dragging!
-		// Note: A click is also a drag without a move, so will work for a click as well
-		if (this.isDragging) {
-			this.onSliderValueChanged(this.name, this.selectedArch.value);
-		}
-
 		this.isDragging = false;
 	}
 
@@ -107,6 +102,11 @@ class Slider {
 				currMinArch = arch;
 				currMinDist = dist;
 			}
+		}
+
+		// Send new value event, should happen only if a new arch was selected!
+		if (currMinArch != selectedArch) {
+			this.onSliderValueChanged(this.name, currMinArch.value);
 		}
 
 		this.snapToArch(currMinArch);
