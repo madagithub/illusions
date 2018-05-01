@@ -17,6 +17,8 @@ class PlayState extends FlxState
 
     private var slider : Slider;
 
+    private var dotsIllusion : DotsIllusion;
+
     override public function create() : Void {
         super.create();
 
@@ -28,10 +30,10 @@ class PlayState extends FlxState
         infoButton.loadGraphic("assets/images/infoSpritesheet.png", true, INFO_WIDTH, INFO_HEIGHT);
         add(infoButton);
 
-        var dotsIllusion = new DotsIllusion(this);
+        this.dotsIllusion = new DotsIllusion(this);
 
         // Create sliders
-        slider = new Slider(this, new FlxRect(1400, 425, 100, 420), this.sliderChanged, 1, 30, 1, 3, 5);
+        slider = new Slider(this, "slider1", new FlxRect(100/*1400*/, 100/*425*/, 100, 420), this.sliderChanged, 1, 30, 1, 3, 5);
     }
 
     override public function onFocusLost() : Void {
@@ -69,7 +71,8 @@ class PlayState extends FlxState
         }
     }
 
-    private function sliderChanged(newValue : Float) {
-
+    private function sliderChanged(sliderName : String, newValue : Float) {
+        trace("Name: " + sliderName + ", Value: " + newValue);
+        //dotsIllusion.sliderChanged(sliderName, newValue);
     }
 }

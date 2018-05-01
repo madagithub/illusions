@@ -1,9 +1,15 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
+
+typedef Arch = {
+	sprite : FlxSprite,
+	value : Float
+}
 
 class Slider {
 	private static var MIN_ARCH_WIDTH : Int = 10;
@@ -11,15 +17,21 @@ class Slider {
 	private static var SLIDER_TRIANGLE_Y : Int = 43;
 
 	private var state : FlxState;
+	private var name : String;
+	private var boundingRect : FlxRect;
+	private var onSliderValueChanged : String->Float->Void;
 	private var limitValue : Float;
 	private var isDragging : Bool = false;
-	private var lastY : Float;
 	private var sliderHandle : FlxSprite;
-	private var archValues : Array<Float> = new Array<Float>();
+	private var archs : Array<Arch> = new Array<Arch>();
+	private var selectedArch : Arch = null;
 
-	public function new(state : FlxState, boundingRect : FlxRect, onSliderValueChanged : Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
+	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
 		this.state = state;
+		this.name = name;
+		this.boundingRect = boundingRect;
 		this.limitValue = limitValue;
+		this.onSliderValueChanged = onSliderValueChanged;
 
 		// Render archs
 		var currArchPosition : FlxPoint = new FlxPoint(boundingRect.left + boundingRect.width / 2, boundingRect.bottom);
@@ -30,70 +42,103 @@ class Slider {
 		var currArchWidth : Float = MIN_ARCH_WIDTH;
 
 		for (i in 0...archsNum) {
-			var arch : FlxSprite = new FlxSprite();
-			arch.loadGraphic(getArchAsset(currArchValue, startValue));
+			var archSprite : FlxSprite = new FlxSprite();
+			var newArch : Arch = { sprite: archSprite, value: currArchValue };
+			this.setArchAsset(newArch, startValue);
 
-			arch.x = currArchPosition.x - currArchWidth;
-			arch.y = currArchPosition.y - arch.height / 2;
-			arch.scale.set(currArchWidth / arch.width, 1);
-			this.state.add(arch);
+			archSprite.x = currArchPosition.x - currArchWidth;
+			archSprite.y = currArchPosition.y - archSprite.height / 2;
+			archSprite.scale.set(currArchWidth / archSprite.width, 1);
+			this.state.add(archSprite);
 
-			if (currArchValue == startValue) {
+			if (newArch.value == startValue) {
 				// Render slider handle
-				sliderHandle = new FlxSprite();
-				sliderHandle.loadGraphic("assets/images/slider.png");
-				sliderHandle.x = currArchPosition.x;
-				sliderHandle.y = arch.y - SLIDER_TRIANGLE_Y;
+				this.sliderHandle = new FlxSprite();
+				this.sliderHandle.loadGraphic("assets/images/slider.png");
+				this.sliderHandle.x = currArchPosition.x;
+				this.sliderHandle.y = newArch.sprite.y - SLIDER_TRIANGLE_Y;
 				this.state.add(sliderHandle);
+				this.selectedArch = newArch;
 			}
 
 			currArchWidth += archWidthDiff;
 			currArchPosition.y -= yArchDiff;
 			currArchValue += archDiff;
-			archValues.push(currArchValue);
+
+			archs.push(newArch);
 		}
 	}
 
 	public function mouseDown(position : FlxPoint) {
-		if (sliderHandle.getHitbox().containsPoint(position)) {
+		if (boundingRect.containsPoint(position)) {
 			this.isDragging = true;
-			this.lastY = position.y;
 			sliderHandle.loadGraphic("assets/images/sliderPressed.png");
+			this.snapToPosition(position);
 		}
 	}
 
 	public function mouseUp(position : FlxPoint) {
 		this.updateSliderImage(position);
+
+		// Send new value event, should happen only on mouse up if it was dragging!
+		// Note: A click is also a drag without a move, so will work for a click as well
+		if (this.isDragging) {
+			this.onSliderValueChanged(this.name, this.selectedArch.value);
+		}
+
 		this.isDragging = false;
-		this.snapToPosition();
 	}
 
 	public function mouseMove(position : FlxPoint) {
 		if (this.isDragging) {
-			sliderHandle.y += position.y - this.lastY;
-			this.lastY = position.y;
+			this.snapToPosition(position);
 		} else {
 			this.updateSliderImage(position);	
 		}
 	}
 
+	private function snapToPosition(position : FlxPoint) {
+		// Search closest arch
+		var currMinDist : Float = FlxG.height;
+		var currMinArch : Arch = null;
+		for (arch in this.archs) {
+			var dist : Float = arch.sprite.getPosition().distanceTo(position);
+			if (dist < currMinDist) {
+				currMinArch = arch;
+				currMinDist = dist;
+			}
+		}
+
+		this.snapToArch(currMinArch);
+	}
+
+	private function snapToArch(arch : Arch) {
+		if (this.selectedArch != null) {
+			this.setArchAsset(this.selectedArch, arch.value);
+		}
+		this.setArchAsset(arch, arch.value);
+		this.selectedArch = arch;
+
+		this.sliderHandle.y = arch.sprite.y - SLIDER_TRIANGLE_Y;
+	}
+
 	private function updateSliderImage(position : FlxPoint) {
-		if (sliderHandle.getHitbox().containsPoint(position)) {
-			sliderHandle.loadGraphic("assets/images/sliderHover.png");
+		if (boundingRect.containsPoint(position)) {
+			this.sliderHandle.loadGraphic("assets/images/sliderHover.png");
 		} else {
-			sliderHandle.loadGraphic("assets/images/slider.png");
+			this.sliderHandle.loadGraphic("assets/images/slider.png");
 		}
 	}
 
-	private function getArchAsset(archValue : Float, currValue : Float) : String {
+	private function setArchAsset(arch : Arch, currValue : Float) {
 		// Note: if value is the selected value, it will show a current line graphics,
 		// only if not the selected value and is the limit value, it will show a limit value graphics
-		if (archValue == currValue) {
-			return "assets/images/currentLine.png";
-		} else if (archValue == this.limitValue) {
-			return "assets/images/limitLine.png";
+		if (arch.value == currValue) {
+			arch.sprite.loadGraphic("assets/images/currentLine.png");
+		} else if (arch.value == this.limitValue) {
+			arch.sprite.loadGraphic("assets/images/limitLine.png");
 		} else {
-			return "assets/images/regularLine.png";
+			arch.sprite.loadGraphic("assets/images/regularLine.png");
 		}
 	}
 }
