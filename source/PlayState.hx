@@ -15,7 +15,7 @@ class PlayState extends FlxState
     private static var INFO_WIDTH : Int = 83;
     private static var INFO_HEIGHT : Int = 83;
 
-    private var slider : Slider;
+    private var sliders : Array<Slider>;
 
     private var dotsIllusion : DotsIllusion;
 
@@ -33,7 +33,9 @@ class PlayState extends FlxState
         this.dotsIllusion = new DotsIllusion(this);
 
         // Create sliders
-        slider = new Slider(this, "slider1", new FlxRect(100/*1400*/, 100/*425*/, 100, 420), this.sliderChanged, 1, 30, 1, 3, 5);
+        sliders = new Array<Slider>();
+        sliders.push(new Slider(this, "slider1", new FlxRect(100/*1400*/, 100/*425*/, 100, 420), this.sliderChanged, 1, 30, 1, 5, 5));
+        sliders.push(new Slider(this, "slider2", new FlxRect(100, 550, 100, 420), this.sliderChanged, -5, 40, 1, 12, 12));
     }
 
     override public function onFocusLost() : Void {
@@ -60,14 +62,16 @@ class PlayState extends FlxState
     }
 
     private function checkMouseEvents() : Void {
-        slider.mouseMove(FlxG.mouse.getScreenPosition());
+        for (slider in this.sliders) {
+            slider.mouseMove(FlxG.mouse.getScreenPosition());
 
-        if (FlxG.mouse.justPressed) {
-            slider.mouseDown(FlxG.mouse.getScreenPosition());
-        }
+            if (FlxG.mouse.justPressed) {
+                slider.mouseDown(FlxG.mouse.getScreenPosition());
+            }
 
-        if (FlxG.mouse.justReleased) {
-            slider.mouseUp(FlxG.mouse.getScreenPosition());
+            if (FlxG.mouse.justReleased) {
+                slider.mouseUp(FlxG.mouse.getScreenPosition());
+            }
         }
     }
 
