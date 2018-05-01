@@ -35,7 +35,7 @@ class Slider {
 
 		// Render archs
 		var currArchPosition : FlxPoint = new FlxPoint(boundingRect.left + boundingRect.width / 2, boundingRect.bottom);
-		var currArchValue : Float = startValue;
+		var currArchValue : Float = minValue;
 		var archsNum : Int = Std.int((maxValue - minValue) / archDiff);
 		var yArchDiff : Float = boundingRect.height / archsNum;
 		var archWidthDiff : Float = (MAX_ARCH_WIDTH - MIN_ARCH_WIDTH) / (archsNum - 1);
