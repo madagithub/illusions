@@ -14,7 +14,7 @@ class DotsIllusionBackground extends FlxSprite {
     private var illusionWidth : Int;
     private var illusionHeight : Int;
 
-    private var lineStyle: LineStyle = { color: FlxColor.GRAY, thickness: 1 };
+    private var lineStyle: LineStyle = { color: FlxColor.GRAY, thickness: 2 };
 	private var drawStyle: DrawStyle = { smoothing: false };
 
 	public function new(illusionWidth : Int, illusionHeight : Int) : Void {
