@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.ui.FlxButton;
+import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 
 import openfl.Lib;
@@ -38,6 +39,8 @@ class PlayState extends FlxState
     private static var START_LANGAUGE_INDEX : Int = 2;
 
     private var sliders : Array<Slider>;
+    private var buttons : Array<FlxButton>;
+
     private var selectedLanguage : Language;
     private var background : FlxSprite;
     private var info : FlxSprite;
@@ -80,6 +83,9 @@ class PlayState extends FlxState
         infoButton.loadGraphic("assets/images/infoSpritesheet.png", true, BUTTON_WIDTH, BUTTON_HEIGHT);
         add(infoButton);
 
+        this.buttons = new Array<FlxButton>();
+        this.buttons.push(infoButton);
+
         this.createLanguageButtons();
 
         this.dotsIllusion = new DotsIllusion(this);
@@ -118,6 +124,7 @@ class PlayState extends FlxState
             var languageButton = new FlxButton(currButtonX - BUTTON_WIDTH / 2, LANGUAGE_Y - BUTTON_HEIGHT / 2, "", toggleLanguage.bind(language));
             languageButton.loadGraphic("assets/images/" + language.buttonSpritesheet + ".png", true, BUTTON_WIDTH, BUTTON_HEIGHT);
             add(languageButton);
+            buttons.push(languageButton);
 
             currButtonX += (languageButton.width + LANGUAGE_SPACING);
         }
@@ -149,7 +156,22 @@ class PlayState extends FlxState
         }
     }
 
+    private function isPositionInButton(position : FlxPoint) : Bool {
+        for (button in this.buttons) {
+            if (button.getHitbox().containsPoint(position)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function checkMouseEvents() : Void {
+        // Close info if shown and mouse click was not on info or language button
+        if (FlxG.mouse.justPressed && this.info.visible && !isPositionInButton(FlxG.mouse.getScreenPosition())) {
+            this.toggleInfo();
+        }
+
         for (slider in this.sliders) {
             slider.mouseMove(FlxG.mouse.getScreenPosition());
 
