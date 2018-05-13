@@ -20,6 +20,9 @@ class DotsIllusion {
 
     private static var CROSS_SIZE : Int = 40;
 
+    private static var STOP_SPEED : Float = 0;
+    private static var STOP_DOT_SIZE : Int = 15;
+
 	private static var DOTS_RADIUS : Int = 20;
 	private static var DOTS_POSITIONS : Array<FlxPoint> = [
 		new FlxPoint(-300, -150),
@@ -30,8 +33,13 @@ class DotsIllusion {
 	private var state : FlxState;
 	private var background : DotsIllusionBackground;
 	private var dotsAndCrossCanvas : FlxSprite;
+
 	private var dotsSize : Int;
 	private var degreesPerSecond : Float;
+
+	private var lastDotsSize : Int;
+	private var lastDegreesPerSecond : Float;
+
 	private var backgroundRotationTween : FlxTween;
 
 	public function new(state : FlxState) : Void {
@@ -47,6 +55,7 @@ class DotsIllusion {
         this.dotsAndCrossCanvas.y = ILLUSION_Y - ILLUSION_HEIGHT / 2;
 
         this.dotsSize = DOTS_RADIUS;
+        this.lastDotsSize = this.dotsSize;
 
         this.drawCross();
         this.drawDots();
@@ -54,17 +63,49 @@ class DotsIllusion {
         this.state.add(this.dotsAndCrossCanvas);
 
         this.degreesPerSecond = DEGREES_PER_SECOND;
+        this.lastDegreesPerSecond = this.degreesPerSecond;
 
         this.updateBackgroundRotation();
+    }
+
+    public function stop() : Void {
+    	this.lastDotsSize = this.dotsSize;
+    	this.lastDegreesPerSecond = this.degreesPerSecond;
+
+    	// Note: Changing attributes directly and refreshing, as this is a bypass sliders mechanism,
+    	// so no need to do any sliderChanged calls!
+        this.dotsSize = STOP_DOT_SIZE;
+        this.redraw();
+
+        this.degreesPerSecond = STOP_SPEED;
+        this.updateBackgroundRotation();
+    }
+
+    public function start() : Void {
+        this.dotsSize = this.lastDotsSize;
+        this.redraw();
+
+        this.degreesPerSecond = this.lastDegreesPerSecond;
+        this.updateBackgroundRotation();	
+    }
+
+    public function restart() : Void {
+    	this.dotsSize = DOTS_RADIUS;
+        this.redraw();
+
+        this.degreesPerSecond = DEGREES_PER_SECOND;
+        this.updateBackgroundRotation();	
     }
 
     public function sliderChanged(name : String, value : Float) {
     	//TODO: Constants for slider names!
     	if (name == "slider1") {
     		this.dotsSize = Std.int(value);
+    		this.lastDotsSize = this.dotsSize;
     		this.redraw();
     	} else if (name == "slider2") {
     		this.degreesPerSecond = value;
+    		this.lastDegreesPerSecond = this.degreesPerSecond;
     		this.updateBackgroundRotation();
     	}
     }
