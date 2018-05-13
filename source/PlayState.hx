@@ -134,7 +134,10 @@ class PlayState extends FlxState
         this.info.visible = false;
         this.selectedLanguage = LANGUAGES[START_LANGAUGE_INDEX];
         this.loadLanguage();
-        this.dotsIllusion.restart();
+        
+        for (slider in this.sliders) {
+            slider.restart();
+        }
     }
 
     private function loadLanguage() {

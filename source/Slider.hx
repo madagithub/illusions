@@ -21,6 +21,7 @@ class Slider {
 	private var name : String;
 	private var boundingRect : FlxRect;
 	private var onSliderValueChanged : String->Float->Void;
+	private var startValue : Float;
 	private var limitValue : Float;
 	private var isDragging : Bool = false;
 	private var sliderHandle : FlxSprite;
@@ -30,6 +31,7 @@ class Slider {
 	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
 		this.state = state;
 		this.name = name;
+		this.startValue = startValue;
 		this.limitValue = limitValue;
 		this.onSliderValueChanged = onSliderValueChanged;
 
@@ -105,6 +107,15 @@ class Slider {
 		}
 	}
 
+	public function restart() {
+		for (arch in this.archs) {
+			if (arch.value == this.startValue) {
+				this.fireChangeEvent(arch);
+				this.snapToArch(arch);
+			}
+		}
+	}
+
 	private function snapToPosition(position : FlxPoint) {
 		// Search closest arch
 		var currMinDist : Float = FlxG.height;
@@ -117,12 +128,15 @@ class Slider {
 			}
 		}
 
-		// Send new value event, should happen only if a new arch was selected!
-		if (currMinArch != selectedArch) {
-			this.onSliderValueChanged(this.name, currMinArch.value);
-		}
-
+		this.fireChangeEvent(currMinArch);
 		this.snapToArch(currMinArch);
+	}
+
+	private function fireChangeEvent(newArch : Arch) {
+		// Send new value event, should happen only if a new arch was selected!
+		if (newArch != selectedArch) {
+			this.onSliderValueChanged(this.name, newArch.value);
+		}
 	}
 
 	private function snapToArch(arch : Arch) {

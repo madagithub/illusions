@@ -89,14 +89,6 @@ class DotsIllusion {
         this.updateBackgroundRotation();	
     }
 
-    public function restart() : Void {
-    	this.dotsSize = DOTS_RADIUS;
-        this.redraw();
-
-        this.degreesPerSecond = DEGREES_PER_SECOND;
-        this.updateBackgroundRotation();	
-    }
-
     public function sliderChanged(name : String, value : Float) {
     	//TODO: Constants for slider names!
     	if (name == "slider1") {
