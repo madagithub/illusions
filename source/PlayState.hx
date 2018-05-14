@@ -43,7 +43,7 @@ class PlayState extends FlxState
     private static var LANGUAGE_Y : Float = 1020;
     private static var LANGUAGE_SPACING : Float = 0;
 
-    private static var IDLE_TIME_ALLOWED_SECONDS : Int = 1 * 20; // 1 * 60 * 3
+    private static var IDLE_TIME_ALLOWED_SECONDS : Int = 1 * 60 * 5;
 
     private static var LANGUAGES: Array<Language> = [
         {id: 0, buttonSpritesheet: "arabicSpritesheet", stopSpritesheet: "stopArabic", backgroundImage: "backgroundArabic", infoImage: "infoArabic"},
