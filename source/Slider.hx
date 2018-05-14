@@ -12,6 +12,8 @@ typedef Arch = {
 }
 
 class Slider {
+	public static var NO_VALUE : Int = -9999;
+
 	private static var MIN_ARCH_WIDTH : Int = 10;
 	private static var MAX_ARCH_WIDTH : Int = 60;
 	private static var SLIDER_TRIANGLE_Y : Int = 43;
@@ -20,7 +22,7 @@ class Slider {
 	private var state : FlxState;
 	private var name : String;
 	private var boundingRect : FlxRect;
-	private var onSliderValueChanged : String->Float->Void;
+	private var onSliderValueChanged : String->Float->Float->Void;
 	private var startValue : Float;
 	private var limitValue : Float;
 	private var isDragging : Bool = false;
@@ -28,7 +30,7 @@ class Slider {
 	private var archs : Array<Arch> = new Array<Arch>();
 	private var selectedArch : Arch = null;
 
-	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
+	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
 		this.state = state;
 		this.name = name;
 		this.startValue = startValue;
@@ -68,7 +70,7 @@ class Slider {
 				this.state.add(sliderHandle);
 				this.selectedArch = newArch;
 
-				this.onSliderValueChanged(this.name, newArch.value);
+				this.onSliderValueChanged(this.name, NO_VALUE, newArch.value);
 			}
 
 			currArchWidth += archWidthDiff;
@@ -135,7 +137,7 @@ class Slider {
 	private function fireChangeEvent(newArch : Arch) {
 		// Send new value event, should happen only if a new arch was selected!
 		if (newArch != selectedArch) {
-			this.onSliderValueChanged(this.name, newArch.value);
+			this.onSliderValueChanged(this.name, selectedArch.value, newArch.value);
 		}
 	}
 

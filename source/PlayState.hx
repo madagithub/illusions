@@ -11,7 +11,7 @@ import flixel.util.FlxTimer;
 import openfl.system.System;
 
 typedef Language = {
-    id : String,
+    id : Int,
     buttonSpritesheet : String,
     stopSpritesheet : String,
     backgroundImage : String,
@@ -46,9 +46,9 @@ class PlayState extends FlxState
     private static var IDLE_TIME_ALLOWED_SECONDS : Int = 1 * 20; // 1 * 60 * 3
 
     private static var LANGUAGES: Array<Language> = [
-        {id: "arabic", buttonSpritesheet: "arabicSpritesheet", stopSpritesheet: "stopArabic", backgroundImage: "backgroundArabic", infoImage: "infoArabic"},
-        {id: "english", buttonSpritesheet: "englishSpritesheet", stopSpritesheet: "stopEnglish", backgroundImage: "backgroundEnglish", infoImage: "infoEnglish"},
-        {id: "hebrew", buttonSpritesheet: "hebrewSpritesheet", stopSpritesheet: "stopHebrew", backgroundImage: "backgroundHebrew", infoImage: "infoHebrew"}
+        {id: 0, buttonSpritesheet: "arabicSpritesheet", stopSpritesheet: "stopArabic", backgroundImage: "backgroundArabic", infoImage: "infoArabic"},
+        {id: 1, buttonSpritesheet: "englishSpritesheet", stopSpritesheet: "stopEnglish", backgroundImage: "backgroundEnglish", infoImage: "infoEnglish"},
+        {id: 2, buttonSpritesheet: "hebrewSpritesheet", stopSpritesheet: "stopHebrew", backgroundImage: "backgroundHebrew", infoImage: "infoHebrew"}
     ];
 
     private static var START_LANGAUGE_INDEX : Int = 2;
@@ -66,8 +66,13 @@ class PlayState extends FlxState
 
     private var dotsIllusion : DotsIllusion;
 
+    private var logger : EasyLogger;
+
     override public function create() : Void {
         super.create();
+
+        this.logger = new EasyLogger("./illusions_log_[logType].txt");
+        this.logger.consoleOutput = true;
 
         this.selectedLanguage = LANGUAGES[START_LANGAUGE_INDEX];
 
@@ -161,19 +166,27 @@ class PlayState extends FlxState
     }
 
     private function stopIllusion() : Void {
+        this.logger.log("1", "STOP_ILLUSION");
         this.dotsIllusion.stop();
     }
 
     private function startIllusion() : Void {
+        this.logger.log("1", "START_ILLUSION");
         this.dotsIllusion.start();
     }
 
     private function toggleInfo() : Void {
     	this.info.visible = !this.info.visible;
+
+        if (this.info.visible) {
+            this.logger.log("1", "INFO_SHOW");
+        } else {
+            this.logger.log("1", "INFO_HIDE");
+        }
     }
 
     private function toggleLanguage(language : Language) : Void {
-        trace("TOGGLE TO: " + language.id);
+        this.logger.log("1", "LANGUAGE_CHANGE" + "," + this.selectedLanguage.id + "," + language.id);
         this.selectedLanguage = language;
         this.loadLanguage();
     }
@@ -218,7 +231,11 @@ class PlayState extends FlxState
         }
     }
 
-    private function sliderChanged(sliderName : String, newValue : Float) {
+    private function sliderChanged(sliderName : String, oldValue : Float, newValue : Float) {
+        if (oldValue != Slider.NO_VALUE) {
+            this.logger.log("1", "SLIDER_CHANGE_" + sliderName + "," + oldValue + "," + newValue);
+        }
+
         dotsIllusion.sliderChanged(sliderName, newValue);
     }
 }
