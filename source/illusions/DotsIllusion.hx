@@ -1,4 +1,4 @@
-package;
+package illusions;
 
 import flixel.FlxState;
 import flixel.FlxSprite;
@@ -67,6 +67,8 @@ class DotsIllusion implements Illusion {
 
         this.updateBackgroundRotation();
     }
+
+    public function update(elapsed : Float) {}
 
     public function stop() : Void {
     	this.lastDotsSize = this.dotsSize;

@@ -8,6 +8,10 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
 
+import illusions.Illusion;
+import illusions.DotsIllusion;
+import illusions.SphereIllusion;
+
 import openfl.system.System;
 
 typedef Language = {
@@ -64,7 +68,7 @@ class PlayState extends FlxState
 
     private var idleTimer : FlxTimer;
 
-    private var dotsIllusion : DotsIllusion;
+    private var illusion : Illusion;
 
     private var logger : EasyLogger;
 
@@ -97,12 +101,15 @@ class PlayState extends FlxState
 
         this.createLanguageButtons();
 
-        this.dotsIllusion = new DotsIllusion(this);
+        //this.illusion = new DotsIllusion(this);
+        this.illusion = new SphereIllusion(this);
 
         // Create sliders
         sliders = new Array<Slider>();
-        sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 1, 30, 1, 15, 15));
-        sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, -5, 40, 1, 20, 20));
+        //sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 1, 30, 1, 15, 15));
+        //sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, -5, 40, 1, 20, 20));
+        sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 5, 200, 5, 100, 100));
+        sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, 0, 80, 2, 20, 20));
 
         add(this.info);
 
@@ -119,6 +126,8 @@ class PlayState extends FlxState
     override public function update(elapsed : Float) : Void {
         checkExitKey();
         checkMouseEvents();
+
+        illusion.update(elapsed);
 
         super.update(elapsed);
     }
@@ -167,12 +176,12 @@ class PlayState extends FlxState
 
     private function stopIllusion() : Void {
         this.logger.log("1", "STOP_ILLUSION");
-        this.dotsIllusion.stop();
+        this.illusion.stop();
     }
 
     private function startIllusion() : Void {
         this.logger.log("1", "START_ILLUSION");
-        this.dotsIllusion.start();
+        this.illusion.start();
     }
 
     private function toggleInfo() : Void {
@@ -236,6 +245,6 @@ class PlayState extends FlxState
             this.logger.log("1", "SLIDER_CHANGE_" + sliderName + "," + oldValue + "," + newValue);
         }
 
-        dotsIllusion.sliderChanged(sliderName, newValue);
+        illusion.sliderChanged(sliderName, newValue);
     }
 }

@@ -1,4 +1,4 @@
-package;
+package illusions;
 
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
