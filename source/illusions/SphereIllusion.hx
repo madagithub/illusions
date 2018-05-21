@@ -42,8 +42,7 @@ class SphereIllusion implements Illusion {
 	private var dotsNum : Int;
 	private var dotsSpeed : Float;
 
-	private var lastDotsNum : Int;
-	private var lastDegreesPerSecond : Float;
+	private var lastDotsSpeed : Float;
 
 	private var backgroundRotationTween : FlxTween;
 
@@ -51,46 +50,31 @@ class SphereIllusion implements Illusion {
 		this.state = state;
 
         this.dotsNum = START_DOTS_NUM;
-        this.lastDotsNum = this.dotsNum;
 
         this.dotsSpeed = DEGREES_PER_SECOND;
-        this.lastDegreesPerSecond = this.dotsSpeed;
+        this.lastDotsSpeed = this.dotsSpeed;
 
         this.dotInfos = new Array<DotInfo>();
         this.createDots();
-
-        this.updateDotsSpeed();
     }
 
     public function stop() : Void {
-    	this.lastDotsNum = this.dotsNum;
-    	this.lastDegreesPerSecond = this.dotsSpeed;
-
-    	// Note: Changing attributes directly and refreshing, as this is a bypass sliders mechanism,
-    	// so no need to do any sliderChanged calls!
-        this.dotsNum = STOP_DOTS_NUM;
-        this.setVisibleDots();
-
+    	this.lastDotsSpeed = this.dotsSpeed;
         this.dotsSpeed = STOP_SPEED;
     }
 
     public function start() : Void {
-        this.dotsNum = this.lastDotsNum;
-        this.setVisibleDots();
-
-        this.dotsSpeed = this.lastDegreesPerSecond;
-        this.updateDotsSpeed();	
+        this.dotsSpeed = this.lastDotsSpeed;
     }
 
     public function sliderChanged(name : String, value : Float) {
     	//TODO: Constants for slider names!
     	if (name == "slider1") {
     		this.dotsNum = Std.int(value);
-    		this.lastDotsNum = this.dotsNum;
     		this.setVisibleDots();
     	} else if (name == "slider2") {
     		this.dotsSpeed = value;
-    		this.lastDegreesPerSecond = this.dotsSpeed;
+    		this.lastDotsSpeed = this.dotsSpeed;
     	}
     }
 
@@ -122,27 +106,9 @@ class SphereIllusion implements Illusion {
                 width: Math.cos(Math.PI * 2 / this.dotsNum * i) * ILLUSION_WIDTH / 2,
                 radians: Random.float(0, Math.PI * 2)
             });
-            //FlxTween.tween(dot, {x: ILLUSION_X - Math.cos(Math.PI*2 / this.dotsNum * i) * ILLUSION_WIDTH / 2}, DEGREES_PER_SECOND, {type: FlxTween.PINGPONG, ease: FlxEase.sineInOut, startDelay: Random.float(0, 1)});
         }
+
         Random.shuffle(this.dotInfos);
-/*
-        stop();
-var ii:Number = Math.abs(_x)*random(1000)/1000;
-var scale:Number = Math.abs(_x);
-
-function onEnterFrame() {
-    _x = Math.sin(ii)*scale;
-    ii += _parent.s;
-
-    
-}*/
-        /*for (var i = 0; i<total; i++) {
-            var y:Number = Math.sin(i)*size/2;
-            var x:Number = Math.cos(i)*size/2;
-            var _mc:MovieClip = _this.attachMovie("dot_mc", "dot"+i, i, {_x:x, _y:y, i:i});
-            mcs.push(_mc);
-            vMcs.push(_mc);
-        }*/
     }
 
     private function drawDot(x : Float, y : Float) : FlxSprite {
@@ -153,27 +119,5 @@ function onEnterFrame() {
         dot.drawCircle(DOT_RADIUS, DOT_RADIUS, DOT_RADIUS, FlxColor.WHITE);
         this.state.add(dot);
         return dot;
-    }
-
-    private function redraw() {
-    	
-    }
-
-    private function updateDotsSpeed() {
-        for (i in 0...this.dotsNum) {
-
-        }
-
-    	// Stop current animation if exists
-    	/*if (this.backgroundRotationTween != null) {
-    		this.backgroundRotationTween.cancel();
-    		this.backgroundRotationTween = null;
-    	}
-
-    	// Start background infinite spin
-    	if (this.dotsSpeed != 0) {
-		    this.backgroundRotationTween = FlxTween.angle(this.background, this.background.angle, 
-		    	background.angle + (this.dotsSpeed > 0 ? 360 : -360), 360 / Math.abs(this.degreesPerSecond), { type: FlxTween.LOOPING});
-		}*/
     }
 }
