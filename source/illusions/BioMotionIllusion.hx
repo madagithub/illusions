@@ -3,6 +3,7 @@ package illusions;
 import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
+import flixel.ui.FlxButton;
 import openfl.Assets;
 
 using flixel.util.FlxSpriteUtil;
@@ -11,6 +12,12 @@ class BioMotionIllusion implements Illusion {
 
     private static var DOTS_X_OFFSET : Int = 200;
     private static var DOTS_Y_OFFSET : Int = 120;
+
+    private static var CHANGE_BUTTON_X : Int = 670;
+    private static var CHANGE_BUTTON_Y : Int = 870;
+
+    private static var BUTTON_WIDTH : Int = 83;
+    private static var BUTTON_HEIGHT : Int = 83;
 
     private static var TOTAL_DOTS_NUM : Int = 200;
 
@@ -51,9 +58,12 @@ class BioMotionIllusion implements Illusion {
 
         this.currAnimation = 2;
         this.loadAnimation();
-        this.currFrame = 0;
         this.isMiddleFrame = false;
         this.timeUntilNextFrame = 1 / this.dotsSpeed;
+
+        var changeButton = new FlxButton(CHANGE_BUTTON_X, CHANGE_BUTTON_Y, "", this.nextAnimation);
+        changeButton.loadGraphic("assets/images/infoSpritesheet.png", true, BUTTON_WIDTH, BUTTON_HEIGHT);
+        this.state.add(changeButton);
     }
 
     public function stop() : Void {
@@ -159,10 +169,23 @@ class BioMotionIllusion implements Illusion {
             this.animationValues.push(Std.parseInt(lines[i]));
         }
 
+        for (dot in this.dots) {
+            this.state.remove(dot);
+        }
+
+        this.dots = [];
         for (i in 0...this.animationDotsNum) {
             var dot : FlxSprite = this.drawDot(0, 0);
             this.dots.push(dot);
         }
+
+        this.currFrame = 0;
+        this.loadFrame();
+    }
+
+    private function nextAnimation() {
+        this.currAnimation = (this.currAnimation + 1) % ANIMATION_NAMES.length;
+        this.loadAnimation();
     }
 
     private function setVisibleDots() {
