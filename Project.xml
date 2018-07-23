@@ -33,6 +33,7 @@
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
 	<assets path="assets/images"/>
+	<assets path="assets/data"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
