@@ -14,6 +14,7 @@ using flixel.util.FlxSpriteUtil;
 
 typedef DotInfo = {
     dot : FlxSprite,
+    y : Float,
     width : Float,
     radians : Float
 }
@@ -33,7 +34,7 @@ class SphereIllusion implements Illusion {
     private static var STOP_SPEED : Float = 0;
     private static var STOP_DOTS_NUM : Int = 100;
 
-	private static var DOT_RADIUS : Int = 10;
+	private static var DOT_RADIUS : Int = 7;
 
 	private var state : FlxState;
 
@@ -87,6 +88,11 @@ class SphereIllusion implements Illusion {
         for (dotInfo in this.dotInfos) {
             dotInfo.radians += radiansChanged;
             dotInfo.dot.x = Math.cos(dotInfo.radians) * dotInfo.width + ILLUSION_X;
+
+            // Apply angle transformation along circle center
+            var angle : Float = 15 / 360 * 2 * Math.PI;
+            dotInfo.dot.x = ILLUSION_X + (dotInfo.dot.x - ILLUSION_X) * Math.cos(angle) - (dotInfo.y - ILLUSION_Y) * Math.sin(angle);
+            dotInfo.dot.y = ILLUSION_Y + (dotInfo.y - ILLUSION_Y) * Math.cos(angle) + (dotInfo.dot.x - ILLUSION_X) * Math.sin(angle);
         }
     }
 
@@ -100,9 +106,11 @@ class SphereIllusion implements Illusion {
         for (i in 0...TOTAL_DOTS_NUM) {
 
             var radians = Random.float(0, Math.PI * 2);
-            var dot : FlxSprite = this.drawDot(Math.cos(radians) * ILLUSION_WIDTH / 2 + ILLUSION_X, Math.sin(Math.PI * 2 / this.dotsNum * i) * ILLUSION_WIDTH / 2 + ILLUSION_Y);
+            var dotY : Float = Math.sin(Math.PI * 2 / this.dotsNum * i) * ILLUSION_WIDTH / 2 + ILLUSION_Y;
+            var dot : FlxSprite = this.drawDot(Math.cos(radians) * ILLUSION_WIDTH / 2 + ILLUSION_X, dotY);
             this.dotInfos.push({
                 dot: dot,
+                y: dotY,
                 width: Math.cos(Math.PI * 2 / this.dotsNum * i) * ILLUSION_WIDTH / 2,
                 radians: Random.float(0, Math.PI * 2)
             });

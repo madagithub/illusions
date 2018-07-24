@@ -50,6 +50,12 @@ class PlayState extends FlxState
 
     private static var IDLE_TIME_ALLOWED_SECONDS : Int = 1 * 60 * 5;
 
+    private static var DOTS_ILLUSION_NAME : String = "dots";
+    private static var SPHERE_ILLUSION_NAME : String = "sphere";
+    private static var BIO_MOTION_ILLUSION_NAME : String = "biomotion";
+
+    private static var ILLUSION_NAME : String = SPHERE_ILLUSION_NAME;
+
     private static var LANGUAGES: Array<Language> = [
         {id: 0, buttonSpritesheet: "arabicSpritesheet", stopSpritesheet: "stopArabic", backgroundImage: "backgroundArabic", infoImage: "infoArabic"},
         {id: 1, buttonSpritesheet: "englishSpritesheet", stopSpritesheet: "stopEnglish", backgroundImage: "backgroundEnglish", infoImage: "infoEnglish"},
@@ -102,24 +108,9 @@ class PlayState extends FlxState
 
         this.createLanguageButtons();
 
-        //this.illusion = new DotsIllusion(this);
-        //this.illusion = new SphereIllusion(this);
-        this.illusion = new BioMotionIllusion(this);
-
         // Create sliders
-        sliders = new Array<Slider>();
-
-        // FIRST ILLUSION
-        //sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 1, 30, 1, 15, 15));
-        //sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, -5, 40, 1, 20, 20));
-
-        // SECOND ILLUSION
-        //sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 5, 200, 5, 100, 100));
-        //sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, 0, 80, 2, 20, 20));
-
-        // THIRD ILLUSION
-        sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 3, 13, 1, 13, 13));
-        sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, 0, 60, 5, 30, 30));
+        this.sliders = new Array<Slider>();
+        this.createIllusion(ILLUSION_NAME);
 
         add(this.info);
 
@@ -140,6 +131,23 @@ class PlayState extends FlxState
         illusion.update(elapsed);
 
         super.update(elapsed);
+    }
+
+    //TODO: Constants
+    private function createIllusion(name : String) {
+        if (name == DOTS_ILLUSION_NAME) {
+            this.illusion = new DotsIllusion(this);
+            this.sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 1, 30, 1, 15, 15));
+            this.sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, -5, 40, 1, 20, 20));
+        } else if (name == SPHERE_ILLUSION_NAME) {
+            this.illusion = new SphereIllusion(this);
+            this.sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 5, 200, 5, 100, 100));
+            this.sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, 0, 80, 2, 20, 20));
+        } else {
+            this.illusion = new BioMotionIllusion(this);
+            this.sliders.push(new Slider(this, "slider1", new FlxRect(1733, 471, 100, 377), this.sliderChanged, 3, 13, 1, 13, 13));
+            this.sliders.push(new Slider(this, "slider2", new FlxRect(1525, 471, 100, 377), this.sliderChanged, 0, 60, 5, 30, 30));
+        }
     }
 
     private function restartIdleTimer() {
