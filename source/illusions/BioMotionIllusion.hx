@@ -19,8 +19,6 @@ class BioMotionIllusion implements Illusion {
     private static var BUTTON_WIDTH : Int = 83;
     private static var BUTTON_HEIGHT : Int = 83;
 
-    private static var TOTAL_DOTS_NUM : Int = 200;
-
     private static var STOP_SPEED : Float = 0;
     private static var STOP_DOTS_NUM : Int = 100;
 
