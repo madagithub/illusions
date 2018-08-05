@@ -13,6 +13,7 @@ import flixel.ui.FlxButton;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
+import flixel.tweens.FlxTween;
 
 import illusions.Illusion;
 import illusions.DotsIllusion;
@@ -48,6 +49,7 @@ class PlayState extends FlxState
     private var selectedLanguage : LanguageData;
     private var background : FlxSprite;
     private var info : FlxSprite;
+    private var infoShown : Bool;
 
     private var idleTimer : FlxTimer;
 
@@ -58,8 +60,12 @@ class PlayState extends FlxState
 
     private var slidersPositions : Array<FlxRect>;
 
+    private var toggleTween : FlxTween;
+
     override public function create() : Void {
         super.create();
+
+        this.toggleTween = null;
 
         this.logger = new EasyLogger("./illusions_log_[logType].txt");
         this.logger.consoleOutput = true;
@@ -77,7 +83,7 @@ class PlayState extends FlxState
 
         this.background = new FlxSprite();
         this.info = new FlxSprite();
-        this.info.visible = false;
+        this.restartInfoState();
         this.loadLanguage();
         add(this.background);
 
@@ -141,6 +147,12 @@ class PlayState extends FlxState
         }
     }
 
+    private function restartInfoState() {
+        this.info.visible = false;
+        this.info.alpha = 0.0;
+        this.infoShown = false;
+    }
+
     private function getFullSpritesheetPath(spritesheetName : String) {
         return "assets/images/" + spritesheetName + ".png";
     }
@@ -171,7 +183,7 @@ class PlayState extends FlxState
     }
 
     private function restart() {
-        this.info.visible = false;
+        this.restartInfoState();
         this.setSelectedLanguage();
 
         this.loadLanguage();
@@ -211,7 +223,20 @@ class PlayState extends FlxState
     }
 
     private function toggleInfo() : Void {
-    	this.info.visible = !this.info.visible;
+        if (this.toggleTween != null) {
+            this.toggleTween.cancel();
+        }
+
+        var currAlpha : Float = this.info.alpha;
+        var destAlpha : Float = this.infoShown ? 0.0 : 1.0;
+
+        trace(destAlpha);
+        trace(currAlpha);
+        trace(Math.abs(destAlpha - currAlpha));
+
+        this.info.visible = true;
+        this.infoShown = !this.infoShown;
+        this.toggleTween = FlxTween.tween(this.info, {alpha: destAlpha}, 0.3 * Math.abs(destAlpha - currAlpha), {onComplete: function(tween) this.info.visible = this.infoShown});
 
         if (this.info.visible) {
             this.logger.log("1", "INFO_SHOW");
@@ -249,7 +274,7 @@ class PlayState extends FlxState
         }
 
         // Close info if shown and mouse click was not on info or language button
-        if (FlxG.mouse.justPressed && this.info.visible && !isPositionInButton(FlxG.mouse.getScreenPosition())) {
+        if (FlxG.mouse.justPressed && this.infoShown && !isPositionInButton(FlxG.mouse.getScreenPosition())) {
             this.toggleInfo();
         }
 
