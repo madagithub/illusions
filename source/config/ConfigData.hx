@@ -1,3 +1,5 @@
+package config;
+
 typedef SliderPosition = {
 	x : Int,
 	y : Int,

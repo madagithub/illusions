@@ -1,7 +1,7 @@
 package;
 
 using Lambda;
-using ConfigData;
+using config.ConfigData;
 
 import haxe.Json;
 import sys.io.File;
@@ -14,6 +14,8 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
+
+import ui.Slider;
 
 import illusions.Illusion;
 import illusions.DotsIllusion;
