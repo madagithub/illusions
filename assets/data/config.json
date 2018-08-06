@@ -1,4 +1,7 @@
 {
+	"maxLogFiles": 5,
+	"maxRowsPerLogFile": 10000,
+
 	"infoX": 1462,
 	"infoY": 1020,
 

@@ -31,6 +31,9 @@ typedef IllusionData = {
 }
 
 typedef ConfigData = {
+	maxLogFiles : Int,
+	maxRowsPerLogFile : Int,
+
 	infoX : Int,
 	infoY : Int,
 

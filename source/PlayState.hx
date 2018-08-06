@@ -57,7 +57,7 @@ class PlayState extends FlxState
 
     private var illusion : Illusion;
 
-    private var logger : EasyLogger;
+    private var logger : Logger;
     private var config : ConfigData;
 
     private var slidersPositions : Array<FlxRect>;
@@ -71,10 +71,9 @@ class PlayState extends FlxState
 
         this.toggleTween = null;
 
-        this.logger = new EasyLogger("./illusions_log_[logType].txt");
-        this.logger.consoleOutput = true;
-
         this.config = Json.parse(File.getContent('assets/data/config.json'));
+
+        this.logger = new Logger("./illusions_log_[logType].txt", this.config.maxLogFiles, this.config.maxRowsPerLogFile);
 
         this.handCursor = new FlxSprite();
         this.handCursor.loadGraphic('assets/images/handCursor.png', true);
@@ -236,12 +235,12 @@ class PlayState extends FlxState
     }
 
     private function stopIllusion() : Void {
-        this.logger.log("1", "STOP_ILLUSION");
+        this.logger.log("STOP_ILLUSION");
         this.illusion.stop();
     }
 
     private function startIllusion() : Void {
-        this.logger.log("1", "START_ILLUSION");
+        this.logger.log("START_ILLUSION");
         this.illusion.start();
     }
 
@@ -258,14 +257,14 @@ class PlayState extends FlxState
         this.toggleTween = FlxTween.tween(this.info, {alpha: destAlpha}, 0.3 * Math.abs(destAlpha - currAlpha), {onComplete: function(tween) this.info.visible = this.infoShown});
 
         if (this.info.visible) {
-            this.logger.log("1", "INFO_SHOW");
+            this.logger.log("INFO_SHOW");
         } else {
-            this.logger.log("1", "INFO_HIDE");
+            this.logger.log("INFO_HIDE");
         }
     }
 
     private function toggleLanguage(language : LanguageData) : Void {
-        this.logger.log("1", "LANGUAGE_CHANGE" + "," + this.selectedLanguage.id + "," + language.id);
+        this.logger.log("LANGUAGE_CHANGE" + "," + this.selectedLanguage.id + "," + language.id);
         this.selectedLanguage = language;
         this.loadLanguage();
     }
@@ -318,7 +317,7 @@ class PlayState extends FlxState
 
     private function sliderDragDone(sliderName : String, oldValue : Float, newValue : Float) {
         if (oldValue != Slider.NO_VALUE) {
-            this.logger.log("1", "SLIDER_CHANGE_" + sliderName + "," + oldValue + "," + newValue);
+            this.logger.log("SLIDER_CHANGE_" + sliderName + "," + oldValue + "," + newValue);
         }
     }
 
