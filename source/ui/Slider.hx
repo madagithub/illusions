@@ -11,7 +11,15 @@ typedef Arch = {
 	value : Float
 }
 
+enum CursorMode {
+	OUT;
+	ENTER;
+	EXIT;
+	OVER;
+}
+
 class Slider {
+
 	public static var NO_VALUE : Int = -9999;
 
 	private static var MIN_ARCH_WIDTH : Int = 10;
@@ -29,6 +37,8 @@ class Slider {
 	private var sliderHandle : FlxSprite;
 	private var archs : Array<Arch> = new Array<Arch>();
 	private var selectedArch : Arch = null;
+
+	private var isLastMouseInSlider : Bool = false;
 
 	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
 		this.state = state;
@@ -101,12 +111,27 @@ class Slider {
 		this.isDragging = false;
 	}
 
-	public function mouseMove(position : FlxPoint) {
+	public function mouseMove(position : FlxPoint) : CursorMode {
+		var isMouseInSlider : Bool = false;
+
 		if (this.isDragging) {
 			this.snapToPosition(position);
+			isMouseInSlider = true;
 		} else {
-			this.updateSliderImage(position);	
+			isMouseInSlider = this.updateSliderImage(position);	
 		}
+
+		var result : CursorMode = OUT;
+		if (isMouseInSlider && !this.isLastMouseInSlider) {
+			result = ENTER;
+		} else if (!isMouseInSlider && this.isLastMouseInSlider) {
+			result = EXIT;
+		} else if (isMouseInSlider) {
+			result = OVER;
+		}
+
+		this.isLastMouseInSlider = isMouseInSlider;
+		return result;
 	}
 
 	public function restart() {
@@ -151,11 +176,13 @@ class Slider {
 		this.sliderHandle.y = arch.sprite.y - SLIDER_TRIANGLE_Y;
 	}
 
-	private function updateSliderImage(position : FlxPoint) {
+	private function updateSliderImage(position : FlxPoint) : Bool {
 		if (boundingRect.containsPoint(position)) {
 			this.sliderHandle.loadGraphic("assets/images/sliderHover.png");
+			return true;
 		} else {
 			this.sliderHandle.loadGraphic("assets/images/slider.png");
+			return false;
 		}
 	}
 

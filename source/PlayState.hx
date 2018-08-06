@@ -64,6 +64,8 @@ class PlayState extends FlxState
 
     private var toggleTween : FlxTween;
 
+    private var handCursor : FlxSprite;
+
     override public function create() : Void {
         super.create();
 
@@ -73,15 +75,20 @@ class PlayState extends FlxState
         this.logger.consoleOutput = true;
 
         this.config = Json.parse(File.getContent('assets/data/config.json'));
-        trace(this.config);
+
+        this.handCursor = new FlxSprite();
+        this.handCursor.loadGraphic('assets/images/handCursor.png', true);
 
         this.setSelectedLanguage();
 
         this.stopIllusionButton = this.loadButton(this.config.stopButtonX, this.config.stopButtonY, this.selectedLanguage.stopSpritesheet, this.startIllusion, 
             this.config.stopButtonWidth, this.config.stopButtonHeight);
-        trace(this.stopIllusionButton.height);
+        this.stopIllusionButton.onOver.callback = this.setHandCursor;
         this.stopIllusionButton.onDown.callback = this.stopIllusion;
-        this.stopIllusionButton.onOut.callback = this.startIllusion;
+        this.stopIllusionButton.onOut.callback = function() {
+            this.startIllusion();
+            this.setRegularCursor();
+        }
 
         this.background = new FlxSprite();
         this.info = new FlxSprite();
@@ -92,7 +99,7 @@ class PlayState extends FlxState
         add(stopIllusionButton);
 
         var infoButton : FlxButton = this.loadButton(this.config.infoX, this.config.infoY, this.selectedLanguage.infoSpritesheet, this.toggleInfo);
-        trace(infoButton.height);
+        this.setButtonCursorReactive(infoButton);
         add(infoButton);
 
         this.onInfoClickableButtons = new Array<FlxButton>();
@@ -129,6 +136,19 @@ class PlayState extends FlxState
         illusion.update(elapsed);
 
         super.update(elapsed);
+    }
+
+    private function setHandCursor() {
+        FlxG.mouse.load(this.handCursor.pixels, 1, this.config.handCursorOffsetX, this.config.handCursorOffsetY);
+    }
+
+    private function setRegularCursor() {
+        FlxG.mouse.unload();
+    }
+
+    private function setButtonCursorReactive(button : FlxButton) {
+        button.onOver.callback = this.setHandCursor;
+        button.onOut.callback = this.setRegularCursor;
     }
 
     //TODO: Constants
@@ -207,6 +227,7 @@ class PlayState extends FlxState
             // NOTE: Passing to the onClick function an already binded toggleLanguage function with the current langauge,
             // so it will get the language to set to
             var languageButton : FlxButton = this.loadButton(currButtonX, this.config.languageY, language.buttonSpritesheet, this.toggleLanguage.bind(language));
+            this.setButtonCursorReactive(languageButton);
             add(languageButton);
             onInfoClickableButtons.push(languageButton);
 
@@ -231,10 +252,6 @@ class PlayState extends FlxState
 
         var currAlpha : Float = this.info.alpha;
         var destAlpha : Float = this.infoShown ? 0.0 : 1.0;
-
-        trace(destAlpha);
-        trace(currAlpha);
-        trace(Math.abs(destAlpha - currAlpha));
 
         this.info.visible = true;
         this.infoShown = !this.infoShown;
@@ -281,7 +298,13 @@ class PlayState extends FlxState
         }
 
         for (slider in this.sliders) {
-            slider.mouseMove(FlxG.mouse.getScreenPosition());
+            var result : CursorMode = slider.mouseMove(FlxG.mouse.getScreenPosition());
+
+            if (result == ENTER || result == OVER) {
+                this.setHandCursor();
+            } else if (result == EXIT) {
+                this.setRegularCursor();
+            }
 
             if (FlxG.mouse.justPressed) {
                 slider.mouseDown(FlxG.mouse.getScreenPosition());

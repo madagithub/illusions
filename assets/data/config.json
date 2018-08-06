@@ -14,6 +14,9 @@
 
 	"idleSecondsAllowed": 300,
 
+	"handCursorOffsetX": 4,
+	"handCursorOffsetY": 6,
+
 	"sliders": [
 		{
 			"x": 1733,

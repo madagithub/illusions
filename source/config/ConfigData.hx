@@ -40,6 +40,9 @@ typedef ConfigData = {
 	stopButtonWidth : Int,
 	stopButtonHeight : Int,
 
+	handCursorOffsetX : Int,
+	handCursorOffsetY : Int,
+
 	firstLanguageX : Int,
 	languageY : Int,
 	languageSpacing: Int,
