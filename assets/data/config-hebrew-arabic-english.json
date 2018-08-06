@@ -8,9 +8,9 @@
 	"stopButtonX": 1681,
 	"stopButtonY": 388,
 
-	"firstLanguageX": 100,
+	"firstLanguageX": 1650,
 	"languageY": 1020,
-	"languageSpacing": 50,
+	"languageSpacing": 0,
 
 	"idleSecondsAllowed": 300,
 
@@ -89,15 +89,15 @@
 		}
 	],
 
-	"illusionName": "biomotion",
+	"illusionName": "dots",
 
 	"languages": [
 		{
 			"id": 0,
 			"rtl": 1,
-			"buttonSpritesheet": "frenchSpritesheet",
+			"buttonSpritesheet": "arabicSpritesheet",
 			"stopSpritesheet": "stopArabic",
-			"backgroundImage": "backgroundParisFrench",
+			"backgroundImage": "backgroundArabic",
 			"infoSpritesheet": "infoSpritesheet",
 			"infoImage": "infoArabic"
 		},
@@ -106,16 +106,16 @@
 			"rtl": 0,
 			"buttonSpritesheet": "englishSpritesheet",
 			"stopSpritesheet": "stopEnglish",
-			"backgroundImage": "backgroundParisEnglish",
+			"backgroundImage": "backgroundEnglish",
 			"infoSpritesheet": "infoSpritesheet",
 			"infoImage": "infoEnglish"
 		},
 		{
 			"id": 2,
 			"rtl": 1,
-			"buttonSpritesheet": "spanishSpritesheet",
+			"buttonSpritesheet": "hebrewSpritesheet",
 			"stopSpritesheet": "stopHebrew",
-			"backgroundImage": "backgroundParisSpanish",
+			"backgroundImage": "backgroundHebrew",
 			"infoSpritesheet": "infoSpritesheet",
 			"infoImage": "infoHebrew"
 		}

@@ -60,7 +60,7 @@ class BioMotionIllusion implements Illusion {
         this.timeUntilNextFrame = 1 / this.dotsSpeed;
 
         var changeButton = new FlxButton(CHANGE_BUTTON_X, CHANGE_BUTTON_Y, "", this.nextAnimation);
-        changeButton.loadGraphic("assets/images/infoSpritesheet.png", true, BUTTON_WIDTH, BUTTON_HEIGHT);
+        changeButton.loadGraphic("assets/images/infoSpritesheet.png", true);
         this.state.add(changeButton);
     }
 
@@ -154,7 +154,7 @@ class BioMotionIllusion implements Illusion {
     // Followed by an integer per row, stating x, then y, of dots, then of the second frame of all dots, third, etc...
     // ....
     private function loadAnimation() {
-        var filePath : String = "assets/data/" + ANIMATION_NAMES[this.currAnimation] + ".txt";
+        var filePath : String = "assets/data/animations/" + ANIMATION_NAMES[this.currAnimation] + ".txt";
         var animationData : String = Assets.getText(filePath);
         var lines : Array<String> = animationData.split("\n");
 
