@@ -31,21 +31,24 @@ class Slider {
 	private var name : String;
 	private var boundingRect : FlxRect;
 	private var onSliderValueChanged : String->Float->Float->Void;
+	private var onSliderDraggingDone : String->Float->Float->Void;
 	private var startValue : Float;
 	private var limitValue : Float;
 	private var isDragging : Bool = false;
 	private var sliderHandle : FlxSprite;
 	private var archs : Array<Arch> = new Array<Arch>();
 	private var selectedArch : Arch = null;
+	private var dragStartValue : Float;
 
 	private var isLastMouseInSlider : Bool = false;
 
-	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
+	public function new(state : FlxState, name : String, boundingRect : FlxRect, onSliderValueChanged : String->Float->Float->Void, onSliderDraggingDone : String->Float->Float->Void, minValue : Float, maxValue : Float, archDiff : Float, startValue : Float, limitValue: Float) : Void {
 		this.state = state;
 		this.name = name;
 		this.startValue = startValue;
 		this.limitValue = limitValue;
 		this.onSliderValueChanged = onSliderValueChanged;
+		this.onSliderDraggingDone = onSliderDraggingDone;
 
 		// Render archs
 		var currArchPosition : FlxPoint = new FlxPoint(boundingRect.left + boundingRect.width / 2, boundingRect.bottom);
@@ -80,6 +83,7 @@ class Slider {
 				this.state.add(sliderHandle);
 				this.selectedArch = newArch;
 
+				this.dragStartValue = newArch.value;
 				this.onSliderValueChanged(this.name, NO_VALUE, newArch.value);
 			}
 
@@ -100,6 +104,7 @@ class Slider {
 
 	public function mouseDown(position : FlxPoint) {
 		if (boundingRect.containsPoint(position)) {
+			this.dragStartValue = selectedArch.value;
 			this.isDragging = true;
 			sliderHandle.loadGraphic("assets/images/sliderPressed.png");
 			this.snapToPosition(position);
@@ -107,8 +112,11 @@ class Slider {
 	}
 
 	public function mouseUp(position : FlxPoint) {
-		this.updateSliderImage(position);
-		this.isDragging = false;
+		if (this.isDragging) {
+			this.updateSliderImage(position);
+			this.onSliderDraggingDone(this.name, this.dragStartValue, selectedArch.value);
+			this.isDragging = false;
+		}
 	}
 
 	public function mouseMove(position : FlxPoint) : CursorMode {

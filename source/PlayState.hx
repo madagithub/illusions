@@ -164,7 +164,7 @@ class PlayState extends FlxState
         var illusionData : IllusionData = this.config.illusions.find(function(illusion) return illusion.name == this.config.illusionName);
 
         for (i in 0...SLIDERS_NUM) {
-            this.sliders.push(new Slider(this, i == 0 ? "slider1" : "slider2", this.slidersPositions[i], this.sliderChanged, 
+            this.sliders.push(new Slider(this, i == 0 ? "slider1" : "slider2", this.slidersPositions[i], this.sliderChanged, this.sliderDragDone,
                 illusionData.sliders[i].min, illusionData.sliders[i].max, illusionData.sliders[i].diff, illusionData.sliders[i].start, illusionData.sliders[i].limit));
         }
     }
@@ -316,11 +316,13 @@ class PlayState extends FlxState
         }
     }
 
-    private function sliderChanged(sliderName : String, oldValue : Float, newValue : Float) {
+    private function sliderDragDone(sliderName : String, oldValue : Float, newValue : Float) {
         if (oldValue != Slider.NO_VALUE) {
             this.logger.log("1", "SLIDER_CHANGE_" + sliderName + "," + oldValue + "," + newValue);
         }
+    }
 
+    private function sliderChanged(sliderName : String, oldValue : Float, newValue : Float) {
         illusion.sliderChanged(sliderName, newValue);
     }
 }
