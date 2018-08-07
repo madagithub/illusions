@@ -95,9 +95,9 @@
         <key>fixedTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>51</int>
+            <int>50</int>
             <key>height</key>
-            <int>153</int>
+            <int>150</int>
         </QSize>
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">

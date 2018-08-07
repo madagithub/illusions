@@ -56,6 +56,7 @@ class PlayState extends FlxState
     private var idleTimer : FlxTimer;
 
     private var illusion : Illusion;
+    private var illusionData : IllusionData;
 
     private var logger : Logger;
     private var config : ConfigData;
@@ -71,29 +72,40 @@ class PlayState extends FlxState
 
         this.toggleTween = null;
 
-        this.config = Json.parse(File.getContent('assets/data/config.json'));
+        this.config = Json.parse(File.getContent("assets/data/config.json"));
+
+        this.background = new FlxSprite();
+        add(this.background);
+
+        // Create sliders
+        this.sliders = new Array<Slider>();
+
+        this.slidersPositions = new Array<FlxRect>();
+        for (i in 0...SLIDERS_NUM) {
+            this.slidersPositions.push(new FlxRect(this.config.sliders[i].x, this.config.sliders[i].y, this.config.sliders[i].width, this.config.sliders[i].height));
+        }
+
+        this.createIllusion(this.config.illusionName);
 
         this.logger = new Logger("./illusions_log_[logType].txt", this.config.maxLogFiles, this.config.maxRowsPerLogFile);
 
         this.handCursor = new FlxSprite();
-        this.handCursor.loadGraphic('assets/images/handCursor.png', true);
+        this.handCursor.loadGraphic("assets/images/handCursor.png", true);
 
         this.setSelectedLanguage();
 
         this.stopIllusionButton = this.loadButton(this.config.stopButtonX, this.config.stopButtonY, this.selectedLanguage.stopSpritesheet, this.startIllusion, 
             this.config.stopButtonWidth, this.config.stopButtonHeight);
-        this.stopIllusionButton.onOver.callback = this.setHandCursor;
+        this.stopIllusionButton.onOver.callback = this.setHandCursorOnButton;
         this.stopIllusionButton.onDown.callback = this.stopIllusion;
         this.stopIllusionButton.onOut.callback = function() {
             this.startIllusion();
-            this.setRegularCursor();
+            this.setRegularCursorOnButton();
         }
 
-        this.background = new FlxSprite();
         this.info = new FlxSprite();
         this.restartInfoState();
         this.loadLanguage();
-        add(this.background);
 
         add(stopIllusionButton);
 
@@ -105,16 +117,6 @@ class PlayState extends FlxState
         this.onInfoClickableButtons.push(infoButton);
 
         this.createLanguageButtons();
-
-        // Create sliders
-        this.sliders = new Array<Slider>();
-
-        this.slidersPositions = new Array<FlxRect>();
-        for (i in 0...SLIDERS_NUM) {
-            this.slidersPositions.push(new FlxRect(this.config.sliders[i].x, this.config.sliders[i].y, this.config.sliders[i].width, this.config.sliders[i].height));
-        }
-
-        this.createIllusion(this.config.illusionName);
 
         add(this.info);
 
@@ -138,12 +140,24 @@ class PlayState extends FlxState
     }
 
     public function setButtonCursorReactive(button : FlxButton) {
-        button.onOver.callback = this.setHandCursor;
-        button.onOut.callback = this.setRegularCursor;
+        button.onOver.callback = this.setHandCursorOnButton;
+        button.onOut.callback = this.setRegularCursorOnButton;
+    }
+
+    private function setHandCursorOnButton() {
+        if (!this.infoShown) {
+            this.setHandCursor();
+        }
     }
 
     private function setHandCursor() {
         FlxG.mouse.load(this.handCursor.pixels, 1, this.config.handCursorOffsetX, this.config.handCursorOffsetY);
+    }
+
+    private function setRegularCursorOnButton() {
+        if (!this.infoShown) {
+            this.setRegularCursor();
+        }
     }
 
     private function setRegularCursor() {
@@ -152,15 +166,15 @@ class PlayState extends FlxState
 
     //TODO: Constants
     private function createIllusion(name : String) {
-        if (name == DOTS_ILLUSION_NAME) {
-            this.illusion = new DotsIllusion(this);
-        } else if (name == SPHERE_ILLUSION_NAME) {
-            this.illusion = new SphereIllusion(this);
-        } else {
-            this.illusion = new BioMotionIllusion(this);
-        }
+        this.illusionData = this.config.illusions.find(function(illusion) return illusion.name == this.config.illusionName);
 
-        var illusionData : IllusionData = this.config.illusions.find(function(illusion) return illusion.name == this.config.illusionName);
+        if (name == DOTS_ILLUSION_NAME) {
+            this.illusion = new DotsIllusion(this, illusionData.dotsConfig);
+        } else if (name == SPHERE_ILLUSION_NAME) {
+            this.illusion = new SphereIllusion(this, illusionData);
+        } else {
+            this.illusion = new BioMotionIllusion(this, illusionData.bioMotionConfig);
+        }
 
         for (i in 0...SLIDERS_NUM) {
             this.sliders.push(new Slider(this, i == 0 ? "slider1" : "slider2", this.slidersPositions[i], this.sliderChanged, this.sliderDragDone,
@@ -174,8 +188,8 @@ class PlayState extends FlxState
         this.infoShown = false;
     }
 
-    private function getFullSpritesheetPath(spritesheetName : String) {
-        return "assets/images/" + spritesheetName + ".png";
+    private function getFullSpritesheetPath(spritesheetName : String, addIllusionName : Bool = false) {
+        return "assets/images/" + (addIllusionName ? (this.illusionData.name + "/") : "") + spritesheetName + ".png";
     }
 
     private function loadButton(x : Float, y : Float, spirtesheetName : String, onClick : Void -> Void, width : Int = 0, height : Int = 0) : FlxButton {
@@ -215,8 +229,8 @@ class PlayState extends FlxState
     }
 
     private function loadLanguage() {
-        this.background.loadGraphic(this.getFullSpritesheetPath(this.selectedLanguage.backgroundImage));
-        this.info.loadGraphic(this.getFullSpritesheetPath(this.selectedLanguage.infoImage));
+        this.background.loadGraphic(this.getFullSpritesheetPath(this.selectedLanguage.backgroundImage, true));
+        this.info.loadGraphic(this.getFullSpritesheetPath(this.selectedLanguage.infoImage, true));
         this.stopIllusionButton.loadGraphic(this.getFullSpritesheetPath(this.selectedLanguage.stopSpritesheet), true, this.config.stopButtonWidth, this.config.stopButtonHeight);
     }
 
@@ -257,8 +271,10 @@ class PlayState extends FlxState
         this.toggleTween = FlxTween.tween(this.info, {alpha: destAlpha}, 0.3 * Math.abs(destAlpha - currAlpha), {onComplete: function(tween) this.info.visible = this.infoShown});
 
         if (this.infoShown) {
+            this.setHandCursor();
             this.logger.log("INFO_SHOW");
         } else {
+            this.setRegularCursor();
             this.logger.log("INFO_HIDE");
         }
     }
@@ -299,18 +315,20 @@ class PlayState extends FlxState
         for (slider in this.sliders) {
             var result : CursorMode = slider.mouseMove(FlxG.mouse.getScreenPosition());
 
-            if (result == ENTER || result == OVER) {
-                this.setHandCursor();
-            } else if (result == EXIT) {
-                this.setRegularCursor();
-            }
+            if (!this.infoShown) {
+                if (result == ENTER || result == OVER) {
+                    this.setHandCursor();
+                } else if (result == EXIT) {
+                    this.setRegularCursor();
+                }
 
-            if (FlxG.mouse.justPressed) {
-                slider.mouseDown(FlxG.mouse.getScreenPosition());
-            }
+                if (FlxG.mouse.justPressed) {
+                    slider.mouseDown(FlxG.mouse.getScreenPosition());
+                }
 
-            if (FlxG.mouse.justReleased) {
-                slider.mouseUp(FlxG.mouse.getScreenPosition());
+                if (FlxG.mouse.justReleased) {
+                    slider.mouseUp(FlxG.mouse.getScreenPosition());
+                }
             }
         }
     }

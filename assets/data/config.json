@@ -2,34 +2,68 @@
 	"maxLogFiles": 50,
 	"maxRowsPerLogFile": 20000,
 
-	"infoX": 1462,
-	"infoY": 1020,
+	"infoX": 432,
+	"infoY": 1002,
 
-	"stopButtonWidth": 160,
-	"stopButtonHeight": 83,
+	"stopButtonWidth": 115,
+	"stopButtonHeight": 55,
 
-	"stopButtonX": 1681,
-	"stopButtonY": 388,
+	"stopButtonX": 291,
+	"stopButtonY": 888,
 
-	"firstLanguageX": 100,
-	"languageY": 1020,
-	"languageSpacing": 50,
+	"firstLanguageX": 135,
+	"languageY": 1005,
+	"languageSpacing": 24,
 
 	"idleSecondsAllowed": 300,
 
 	"handCursorOffsetX": 4,
 	"handCursorOffsetY": 6,
 
+	"illusionName": "dots",
+
+	"languages": [
+		{
+			"id": 0,
+			"rtl": 1,
+			"buttonSpritesheet": "frenchSpritesheet",
+			"stopSpritesheet": "stopFrench",
+			"backgroundImage": "backgroundParisFrench",
+			"infoSpritesheet": "infoSpritesheet",
+			"infoImage": "frenchParisInfo"
+		},
+		{
+			"id": 1,
+			"rtl": 0,
+			"buttonSpritesheet": "englishSpritesheet",
+			"stopSpritesheet": "stopEnglish",
+			"backgroundImage": "backgroundParisEnglish",
+			"infoSpritesheet": "infoSpritesheet",
+			"infoImage": "englishParisInfo"
+		},
+		{
+			"id": 2,
+			"rtl": 1,
+			"buttonSpritesheet": "spanishSpritesheet",
+			"stopSpritesheet": "stopSpanish",
+			"backgroundImage": "backgroundParisSpanish",
+			"infoSpritesheet": "infoSpritesheet",
+			"infoImage": "spanishParisInfo"
+		}
+	],
+
+	"startLanguageId": 2,
+
 	"sliders": [
 		{
-			"x": 1733,
-			"y": 471,
+			"x": 361,
+			"y": 369,
 			"width": 100,
 			"height": 377
 		},
 		{
-			"x": 1525,
-			"y": 471,
+			"x": 127,
+			"y": 369,
 			"width": 100,
 			"height": 377
 		}
@@ -53,7 +87,20 @@
 					"start": 20,
 					"limit": 20
 				}
-			]
+			],
+			"dotsConfig": {
+				"x": 1200,
+				"y": 580,
+				"width": 900,
+				"height": 900,
+
+				"dotSize": 20,
+
+				"stopSpeed": 0,
+				"stopDotSize": 15,
+
+				"crossSize": 40
+			}
 		},
 		{
 			"name": "sphere",
@@ -72,7 +119,18 @@
 					"start": 20,
 					"limit": 20
 				}
-			]
+			],
+			"sphereConfig": {
+				"x": 1200,
+				"y": 580,
+				"width": 900,
+				"height": 900,
+
+				"dotSize": 7,
+
+				"stopSpeed": 0,
+				"stopDotsNum": 100
+			}
 		},
 		{
 			"name": "biomotion",
@@ -91,41 +149,28 @@
 					"start": 30,
 					"limit": 30
 				}
-			]
+			],
+			"bioMotionConfig": {
+				"dotSize": 7,
+
+				"stopSpeed": 1,
+				"stopDotsNum": 4,
+
+				"dotsOffsetX": 200,
+				"dotsOffsetY": 120,
+
+				"prevButtonX": 620,
+				"prevButtonY": 820,
+
+				"nextButtonX": 720,
+				"nextButtonY": 920,
+
+				"nextButtonSpritesheet": "infoSpritesheet",
+				"prevButtonSpritesheet": "infoSpritesheet",
+
+				"animationFileNames": ["cartwheel", "dog_turn", "dog_walk", "jump", "placekick", "run7-5", "walk5"],
+				"startAnimationIndex": 2
+			}
 		}
-	],
-
-	"illusionName": "biomotion",
-
-	"languages": [
-		{
-			"id": 0,
-			"rtl": 1,
-			"buttonSpritesheet": "frenchSpritesheet",
-			"stopSpritesheet": "stopArabic",
-			"backgroundImage": "backgroundParisFrench",
-			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "infoArabic"
-		},
-		{
-			"id": 1,
-			"rtl": 0,
-			"buttonSpritesheet": "englishSpritesheet",
-			"stopSpritesheet": "stopEnglish",
-			"backgroundImage": "backgroundParisEnglish",
-			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "infoEnglish"
-		},
-		{
-			"id": 2,
-			"rtl": 1,
-			"buttonSpritesheet": "spanishSpritesheet",
-			"stopSpritesheet": "stopHebrew",
-			"backgroundImage": "backgroundParisSpanish",
-			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "infoHebrew"
-		}
-	],
-
-	"startLanguageId": 2
+	]
 }

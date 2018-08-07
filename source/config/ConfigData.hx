@@ -25,9 +25,58 @@ typedef LanguageData = {
 	infoImage : String
 };
 
+typedef DotsConfig = {
+	x : Int,
+	y : Int,
+	width : Int,
+	height : Int,
+
+	dotSize : Int,
+
+	stopSpeed : Int,
+	stopDotSize : Int,
+
+	crossSize : Int
+}
+
+typedef SphereConfig = {
+	x : Int,
+	y : Int,
+	width : Int,
+	height : Int,
+
+	dotSize : Int,
+
+	stopSpeed : Int,
+	stopDotsNum : Int
+}
+
+typedef BioMotionConfig = {
+	dotSize : Int,
+
+	stopSpeed : Int,
+	stopDotsNum : Int,
+
+	dotsOffsetX : Int,
+	dotsOffsetY : Int,
+
+	prevButtonX : Int,
+	prevButtonY : Int,
+	nextButtonX : Int,
+	nextButtonY : Int,
+	nextButtonSpritesheet : String,
+	prevButtonSpritesheet : String,
+
+	animationFileNames : Array<String>,
+	startAnimationIndex : Int
+}
+
 typedef IllusionData = {
 	name : String,
-	sliders : Array<SliderData>
+	sliders : Array<SliderData>,
+	dotsConfig : DotsConfig,
+	sphereConfig : SphereConfig,
+	bioMotionConfig : BioMotionConfig
 }
 
 typedef ConfigData = {

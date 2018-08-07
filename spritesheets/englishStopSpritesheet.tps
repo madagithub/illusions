@@ -34,7 +34,7 @@
         <key>dataFormat</key>
         <string>spritesheet-only</string>
         <key>textureFileName</key>
-        <filename>frenchSpritesheet.png</filename>
+        <filename>stopEnglish.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -95,9 +95,9 @@
         <key>fixedTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>50</int>
+            <int>115</int>
             <key>height</key>
-            <int>150</int>
+            <int>165</int>
         </QSize>
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
@@ -175,27 +175,27 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">1_frenchRegular.png</key>
-            <key type="filename">2_frenchHover.png</key>
-            <key type="filename">3_frenchPressed.png</key>
+            <key type="filename">1_englishStopRegular.png</key>
+            <key type="filename">2_englishStopHover.png</key>
+            <key type="filename">3_englishStopPressed.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>13,13,25,25</rect>
+                <rect>29,14,57,27</rect>
                 <key>scale9Paddings</key>
-                <rect>13,13,25,25</rect>
+                <rect>29,14,57,27</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>1_frenchRegular.png</filename>
-            <filename>2_frenchHover.png</filename>
-            <filename>3_frenchPressed.png</filename>
+            <filename>1_englishStopRegular.png</filename>
+            <filename>2_englishStopHover.png</filename>
+            <filename>3_englishStopPressed.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

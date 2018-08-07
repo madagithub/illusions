@@ -13,7 +13,6 @@ class Logger {
 
 	public function new(fileName : String, maxFiles : Int, maxRowsPerFile : Int) {
 		this.easyLogger = new EasyLogger(fileName);
-		this.easyLogger.consoleOutput = true;
 		this.maxFiles = maxFiles;
 		this.maxRowsPerFile = maxRowsPerFile;
 		this.fileName = fileName;

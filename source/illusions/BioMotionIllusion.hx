@@ -5,24 +5,11 @@ import flixel.util.FlxColor;
 import flixel.ui.FlxButton;
 import openfl.Assets;
 
+import config.ConfigData;
+
 using flixel.util.FlxSpriteUtil;
 
 class BioMotionIllusion implements Illusion {
-
-    private static var DOTS_X_OFFSET : Int = 200;
-    private static var DOTS_Y_OFFSET : Int = 120;
-
-    private static var CHANGE_BUTTON_X : Int = 670;
-    private static var CHANGE_BUTTON_Y : Int = 870;
-
-    private static var STOP_SPEED : Float = 0;
-    private static var STOP_DOTS_NUM : Int = 100;
-
-    private static var DOT_RADIUS : Int = 7;
-
-    private static var FRAMES_PER_SECOND : Float = 30;
-
-    private static var ANIMATION_NAMES : Array<String> = ["cartwheel", "dog_turn", "dog_walk", "jump", "placekick", "run7-5", "walk5"];
 
     private var state : PlayState;
 
@@ -31,6 +18,7 @@ class BioMotionIllusion implements Illusion {
     private var framesNum : Int;
 	private var dotsSpeed : Float;
 
+    private var lastDotsNum : Int;
 	private var lastDotsSpeed : Float;
     private var timeUntilNextFrame : Float;
 
@@ -41,32 +29,43 @@ class BioMotionIllusion implements Illusion {
     private var dots : Array<FlxSprite>;
     private var animationValues : Array<Int>;
 
-	public function new(state : PlayState) : Void {
-		this.state = state;
+    private var config : BioMotionConfig;
 
-        this.dotsSpeed = FRAMES_PER_SECOND;
-        this.lastDotsSpeed = this.dotsSpeed;
+	public function new(state : PlayState, config : BioMotionConfig) : Void {
+		this.state = state;
+        this.config = config;
 
         this.dots = new Array<FlxSprite>();
         this.animationValues = new Array<Int>();
 
-        this.currAnimation = 2;
+        this.currAnimation = this.config.startAnimationIndex;
         this.loadAnimation();
         this.isMiddleFrame = false;
-        this.timeUntilNextFrame = 1 / this.dotsSpeed;
 
-        var changeButton = new FlxButton(CHANGE_BUTTON_X, CHANGE_BUTTON_Y, "", this.nextAnimation);
-        changeButton.loadGraphic("assets/images/infoSpritesheet.png", true);
-        this.state.setButtonCursorReactive(changeButton);
-        this.state.add(changeButton);
+        var nextButton = new FlxButton(this.config.nextButtonX, this.config.nextButtonY, "", this.nextAnimation);
+        nextButton.loadGraphic("assets/images/" + this.config.nextButtonSpritesheet + ".png", true);
+        this.state.setButtonCursorReactive(nextButton);
+        this.state.add(nextButton);
+
+        var prevButton = new FlxButton(this.config.prevButtonX, this.config.prevButtonY, "", this.prevAnimation);
+        prevButton.loadGraphic("assets/images/" + this.config.prevButtonSpritesheet + ".png", true);
+        this.state.setButtonCursorReactive(prevButton);
+        this.state.add(prevButton);
     }
 
     public function stop() : Void {
+        this.lastDotsNum = this.dotsNum;
+        this.dotsNum = this.config.stopDotsNum;
+        this.setVisibleDots();
+
     	this.lastDotsSpeed = this.dotsSpeed;
-        this.dotsSpeed = STOP_SPEED;
+        this.dotsSpeed = this.config.stopSpeed;
     }
 
     public function start() : Void {
+        this.dotsNum = this.lastDotsNum;
+        this.setVisibleDots();
+
         this.dotsSpeed = this.lastDotsSpeed;
         this.timeUntilNextFrame = 1 / this.dotsSpeed;
     }
@@ -138,8 +137,8 @@ class BioMotionIllusion implements Illusion {
 
             dot.visible = !(dot.x == 0 && dot.y == 0);
 
-            dot.x += DOTS_X_OFFSET;
-            dot.y += DOTS_Y_OFFSET;
+            dot.x += this.config.dotsOffsetX;
+            dot.y += this.config.dotsOffsetY;
         }
     }
 
@@ -151,7 +150,7 @@ class BioMotionIllusion implements Illusion {
     // Followed by an integer per row, stating x, then y, of dots, then of the second frame of all dots, third, etc...
     // ....
     private function loadAnimation() {
-        var filePath : String = "assets/data/animations/" + ANIMATION_NAMES[this.currAnimation] + ".txt";
+        var filePath : String = "assets/data/animations/" + this.config.animationFileNames[this.currAnimation] + ".txt";
         var animationData : String = Assets.getText(filePath);
         var lines : Array<String> = animationData.split("\n");
 
@@ -179,7 +178,12 @@ class BioMotionIllusion implements Illusion {
     }
 
     private function nextAnimation() {
-        this.currAnimation = (this.currAnimation + 1) % ANIMATION_NAMES.length;
+        this.currAnimation = (this.currAnimation + 1) % this.config.animationFileNames.length;
+        this.loadAnimation();
+    }
+
+    private function prevAnimation() {
+        this.currAnimation = (this.currAnimation - 1 + this.config.animationFileNames.length) % this.config.animationFileNames.length;
         this.loadAnimation();
     }
 
@@ -192,10 +196,10 @@ class BioMotionIllusion implements Illusion {
     //TODO: Make super class (or utility function) for dots handling...
     private function drawDot(x : Float, y : Float) : FlxSprite {
         var dot : FlxSprite = new FlxSprite();
-        dot.makeGraphic(DOT_RADIUS * 2, DOT_RADIUS * 2, FlxColor.TRANSPARENT, true);
+        dot.makeGraphic(this.config.dotSize * 2, this.config.dotSize * 2, FlxColor.TRANSPARENT, true);
         dot.x = x;
         dot.y = y;
-        dot.drawCircle(DOT_RADIUS, DOT_RADIUS, DOT_RADIUS, FlxColor.WHITE);
+        dot.drawCircle(this.config.dotSize, this.config.dotSize, this.config.dotSize, FlxColor.WHITE);
         this.state.add(dot);
         return dot;
     }
