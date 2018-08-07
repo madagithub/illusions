@@ -256,7 +256,7 @@ class PlayState extends FlxState
         this.infoShown = !this.infoShown;
         this.toggleTween = FlxTween.tween(this.info, {alpha: destAlpha}, 0.3 * Math.abs(destAlpha - currAlpha), {onComplete: function(tween) this.info.visible = this.infoShown});
 
-        if (this.info.visible) {
+        if (this.infoShown) {
             this.logger.log("INFO_SHOW");
         } else {
             this.logger.log("INFO_HIDE");
