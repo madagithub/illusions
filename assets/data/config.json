@@ -1,6 +1,6 @@
 {
-	"maxLogFiles": 5,
-	"maxRowsPerLogFile": 10000,
+	"maxLogFiles": 50,
+	"maxRowsPerLogFile": 20000,
 
 	"infoX": 1462,
 	"infoY": 1020,
