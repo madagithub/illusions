@@ -1,6 +1,5 @@
 package illusions;
 
-import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.ui.FlxButton;
@@ -16,9 +15,6 @@ class BioMotionIllusion implements Illusion {
     private static var CHANGE_BUTTON_X : Int = 670;
     private static var CHANGE_BUTTON_Y : Int = 870;
 
-    private static var BUTTON_WIDTH : Int = 83;
-    private static var BUTTON_HEIGHT : Int = 83;
-
     private static var STOP_SPEED : Float = 0;
     private static var STOP_DOTS_NUM : Int = 100;
 
@@ -28,7 +24,7 @@ class BioMotionIllusion implements Illusion {
 
     private static var ANIMATION_NAMES : Array<String> = ["cartwheel", "dog_turn", "dog_walk", "jump", "placekick", "run7-5", "walk5"];
 
-    private var state : FlxState;
+    private var state : PlayState;
 
 	private var dotsNum : Int;
     private var animationDotsNum : Int;
@@ -45,7 +41,7 @@ class BioMotionIllusion implements Illusion {
     private var dots : Array<FlxSprite>;
     private var animationValues : Array<Int>;
 
-	public function new(state : FlxState) : Void {
+	public function new(state : PlayState) : Void {
 		this.state = state;
 
         this.dotsSpeed = FRAMES_PER_SECOND;
@@ -61,6 +57,7 @@ class BioMotionIllusion implements Illusion {
 
         var changeButton = new FlxButton(CHANGE_BUTTON_X, CHANGE_BUTTON_Y, "", this.nextAnimation);
         changeButton.loadGraphic("assets/images/infoSpritesheet.png", true);
+        this.state.setButtonCursorReactive(changeButton);
         this.state.add(changeButton);
     }
 

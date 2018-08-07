@@ -137,17 +137,17 @@ class PlayState extends FlxState
         super.update(elapsed);
     }
 
+    public function setButtonCursorReactive(button : FlxButton) {
+        button.onOver.callback = this.setHandCursor;
+        button.onOut.callback = this.setRegularCursor;
+    }
+
     private function setHandCursor() {
         FlxG.mouse.load(this.handCursor.pixels, 1, this.config.handCursorOffsetX, this.config.handCursorOffsetY);
     }
 
     private function setRegularCursor() {
         FlxG.mouse.unload();
-    }
-
-    private function setButtonCursorReactive(button : FlxButton) {
-        button.onOver.callback = this.setHandCursor;
-        button.onOut.callback = this.setRegularCursor;
     }
 
     //TODO: Constants

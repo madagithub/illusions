@@ -1,6 +1,5 @@
 package illusions;
 
-import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
@@ -30,7 +29,7 @@ class DotsIllusion implements Illusion {
 		new FlxPoint(0, 300)
 	];
 
-	private var state : FlxState;
+	private var state : PlayState;
 	private var background : DotsIllusionBackground;
 	private var dotsAndCrossCanvas : FlxSprite;
 
@@ -42,7 +41,7 @@ class DotsIllusion implements Illusion {
 
 	private var backgroundRotationTween : FlxTween;
 
-	public function new(state : FlxState) : Void {
+	public function new(state : PlayState) : Void {
 		this.state = state;
 		this.background = new DotsIllusionBackground(ILLUSION_WIDTH, ILLUSION_HEIGHT);
         this.background.setCenter(ILLUSION_X, ILLUSION_Y);

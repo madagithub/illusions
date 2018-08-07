@@ -2,7 +2,6 @@ package illusions;
 
 import Random;
 
-import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
@@ -36,7 +35,7 @@ class SphereIllusion implements Illusion {
 
 	private static var DOT_RADIUS : Int = 7;
 
-	private var state : FlxState;
+	private var state : PlayState;
 
     private var dotInfos : Array<DotInfo>;
 
@@ -47,7 +46,7 @@ class SphereIllusion implements Illusion {
 
 	private var backgroundRotationTween : FlxTween;
 
-	public function new(state : FlxState) : Void {
+	public function new(state : PlayState) : Void {
 		this.state = state;
 
         this.dotsNum = START_DOTS_NUM;
