@@ -67,6 +67,12 @@ typedef BioMotionConfig = {
 	nextButtonSpritesheet : String,
 	prevButtonSpritesheet : String,
 
+	nextButtonWidth : Int,
+	nextButtonHeight : Int,
+
+	prevButtonWidth : Int,
+	prevButtonHeight : Int,
+
 	animationFileNames : Array<String>,
 	startAnimationIndex : Int
 }

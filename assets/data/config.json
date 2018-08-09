@@ -20,7 +20,7 @@
 	"handCursorOffsetX": 4,
 	"handCursorOffsetY": 6,
 
-	"illusionName": "dots",
+	"illusionName": "biomotion",
 
 	"languages": [
 		{
@@ -52,7 +52,7 @@
 		}
 	],
 
-	"startLanguageId": 2,
+	"startLanguageId": 0,
 
 	"sliders": [
 		{
@@ -156,17 +156,23 @@
 				"stopSpeed": 1,
 				"stopDotsNum": 4,
 
-				"dotsOffsetX": 200,
+				"dotsOffsetX": 650,
 				"dotsOffsetY": 120,
 
-				"prevButtonX": 620,
-				"prevButtonY": 820,
+				"prevButtonX": 1100,
+				"prevButtonY": 870,
 
-				"nextButtonX": 720,
-				"nextButtonY": 920,
+				"nextButtonX": 1200,
+				"nextButtonY": 870,
 
-				"nextButtonSpritesheet": "infoSpritesheet",
-				"prevButtonSpritesheet": "infoSpritesheet",
+				"nextButtonSpritesheet": "rightSpritesheet",
+				"prevButtonSpritesheet": "leftSpritesheet",
+
+				"nextButtonWidth" : 26,
+				"nextButtonHeight": 50,
+
+				"prevButtonWidth" : 26,
+				"prevButtonHeight": 50,
 
 				"animationFileNames": ["cartwheel", "dog_turn", "dog_walk", "jump", "placekick", "run7-5", "walk5"],
 				"startAnimationIndex": 2

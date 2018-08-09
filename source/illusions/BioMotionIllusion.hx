@@ -43,12 +43,12 @@ class BioMotionIllusion implements Illusion {
         this.isMiddleFrame = false;
 
         var nextButton = new FlxButton(this.config.nextButtonX, this.config.nextButtonY, "", this.nextAnimation);
-        nextButton.loadGraphic("assets/images/" + this.config.nextButtonSpritesheet + ".png", true);
+        nextButton.loadGraphic("assets/images/" + this.config.nextButtonSpritesheet + ".png", true, this.config.nextButtonWidth, this.config.nextButtonHeight);
         this.state.setButtonCursorReactive(nextButton);
         this.state.add(nextButton);
 
         var prevButton = new FlxButton(this.config.prevButtonX, this.config.prevButtonY, "", this.prevAnimation);
-        prevButton.loadGraphic("assets/images/" + this.config.prevButtonSpritesheet + ".png", true);
+        prevButton.loadGraphic("assets/images/" + this.config.prevButtonSpritesheet + ".png", true, this.config.prevButtonWidth, this.config.prevButtonHeight);
         this.state.setButtonCursorReactive(prevButton);
         this.state.add(prevButton);
     }

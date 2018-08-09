@@ -34,7 +34,7 @@
         <key>dataFormat</key>
         <string>spritesheet-only</string>
         <key>textureFileName</key>
-        <filename>stopFrench.png</filename>
+        <filename>rightSpritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -95,9 +95,9 @@
         <key>fixedTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>115</int>
+            <int>26</int>
             <key>height</key>
-            <int>165</int>
+            <int>150</int>
         </QSize>
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
@@ -175,27 +175,27 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">1_frenchStopRegular.png</key>
-            <key type="filename">2_frenchStopHover.png</key>
-            <key type="filename">3_frenchStopPressed.png</key>
+            <key type="filename">1_rightRegular.png</key>
+            <key type="filename">2_rightHover.png</key>
+            <key type="filename">3_rightPressed.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>29,14,58,27</rect>
+                <rect>7,13,13,25</rect>
                 <key>scale9Paddings</key>
-                <rect>29,14,58,27</rect>
+                <rect>7,13,13,25</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>1_frenchStopRegular.png</filename>
-            <filename>2_frenchStopHover.png</filename>
-            <filename>3_frenchStopPressed.png</filename>
+            <filename>1_rightRegular.png</filename>
+            <filename>2_rightHover.png</filename>
+            <filename>3_rightPressed.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
