@@ -46,7 +46,6 @@ class DotsIllusionBackground extends FlxSprite {
     	this.y = y - this.illusionHeight / 2;
     }
 
-    //TODO: Shoudl be a util?
     private function drawCircleWithRadius(radius : Float) {
     	this.drawCircle(this.illusionWidth / 2, this.illusionHeight / 2, radius, FlxColor.TRANSPARENT, this.lineStyle, this.drawStyle);
     }

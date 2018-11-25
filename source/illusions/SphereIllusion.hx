@@ -10,7 +10,9 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
 import config.ConfigData;
-import config.Constants;
+
+import utils.Constants;
+import utils.Utils;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -103,7 +105,7 @@ class SphereIllusion implements Illusion {
 
             var radians = Random.float(0, Math.PI * 2);
             var dotY : Float = Math.sin(Math.PI * 2 / this.maxDotsNum * i) * this.config.width / 2 + this.config.y;
-            var dot : FlxSprite = this.drawDot(Math.cos(radians) * this.config.width / 2 + this.config.x, dotY);
+            var dot : FlxSprite = Utils.drawDot(Math.cos(radians) * this.config.width / 2 + this.config.x, dotY, this.config.dotSize, this.state);
             this.dotInfos.push({
                 dot: dot,
                 y: dotY,
@@ -113,15 +115,5 @@ class SphereIllusion implements Illusion {
         }
 
         Random.shuffle(this.dotInfos);
-    }
-
-    private function drawDot(x : Float, y : Float) : FlxSprite {
-        var dot : FlxSprite = new FlxSprite();
-        dot.makeGraphic(this.config.dotSize * 2, this.config.dotSize * 2, FlxColor.TRANSPARENT, true);
-        dot.x = x;
-        dot.y = y;
-        dot.drawCircle(this.config.dotSize, this.config.dotSize, this.config.dotSize, FlxColor.WHITE);
-        this.state.add(dot);
-        return dot;
     }
 }

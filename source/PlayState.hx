@@ -2,7 +2,8 @@ package;
 
 using Lambda;
 using config.ConfigData;
-import config.Constants;
+
+import utils.Constants;
 
 import haxe.Json;
 import sys.io.File;

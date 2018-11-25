@@ -6,7 +6,9 @@ import flixel.ui.FlxButton;
 import openfl.Assets;
 
 import config.ConfigData;
-import config.Constants;
+
+import utils.Constants;
+import utils.Utils;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -169,7 +171,7 @@ class BioMotionIllusion implements Illusion {
 
         this.dots = [];
         for (i in 0...this.animationDotsNum) {
-            var dot : FlxSprite = this.drawDot(0, 0);
+            var dot : FlxSprite = Utils.drawDot(0, 0, this.config.dotSize, this.state);
             this.dots.push(dot);
         }
 
@@ -191,16 +193,5 @@ class BioMotionIllusion implements Illusion {
         for (i in 0...this.dots.length) {
             this.dots[i].visible = (i < this.dotsNum);
         }
-    }
-
-    //TODO: Make super class (or utility function) for dots handling...
-    private function drawDot(x : Float, y : Float) : FlxSprite {
-        var dot : FlxSprite = new FlxSprite();
-        dot.makeGraphic(this.config.dotSize * 2, this.config.dotSize * 2, FlxColor.TRANSPARENT, true);
-        dot.x = x;
-        dot.y = y;
-        dot.drawCircle(this.config.dotSize, this.config.dotSize, this.config.dotSize, FlxColor.WHITE);
-        this.state.add(dot);
-        return dot;
     }
 }

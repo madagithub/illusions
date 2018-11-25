@@ -1,4 +1,4 @@
-package config;
+package utils;
 
 class Constants {
 	public static var FIRST_SLIDER_ID : String = "slider1";

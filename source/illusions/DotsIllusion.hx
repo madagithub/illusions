@@ -7,7 +7,8 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 
 import config.ConfigData;
-import config.Constants;
+
+import utils.Constants;
 
 using flixel.util.FlxSpriteUtil;
 
