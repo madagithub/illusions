@@ -10,6 +10,7 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
 import config.ConfigData;
+import config.Constants;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -65,12 +66,10 @@ class SphereIllusion implements Illusion {
     }
 
     public function sliderChanged(name : String, value : Float) {
-    	//TODO: Constants for slider names!
-    	if (name == "slider1") {
+    	if (name == Constants.FIRST_SLIDER_ID) {
     		this.dotsNum = Std.int(value);
     		this.setVisibleDots();
-            trace("Visible dots: " + this.dotsNum);
-    	} else if (name == "slider2") {
+    	} else if (name == Constants.SECOND_SLIDER_ID) {
     		this.dotsSpeed = value;
     		this.lastDotsSpeed = this.dotsSpeed;
     	}

@@ -7,6 +7,7 @@ import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 
 import config.ConfigData;
+import config.Constants;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -72,12 +73,11 @@ class DotsIllusion implements Illusion {
     }
 
     public function sliderChanged(name : String, value : Float) {
-    	//TODO: Constants for slider names!
-    	if (name == "slider1") {
+    	if (name == Constants.FIRST_SLIDER_ID) {
     		this.dotsSize = Std.int(value);
     		this.lastDotsSize = this.dotsSize;
     		this.redraw();
-    	} else if (name == "slider2") {
+    	} else if (name == Constants.SECOND_SLIDER_ID) {
     		this.degreesPerSecond = value;
     		this.lastDegreesPerSecond = this.degreesPerSecond;
     		this.updateBackgroundRotation();

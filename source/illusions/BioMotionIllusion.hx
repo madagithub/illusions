@@ -6,6 +6,7 @@ import flixel.ui.FlxButton;
 import openfl.Assets;
 
 import config.ConfigData;
+import config.Constants;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -71,11 +72,10 @@ class BioMotionIllusion implements Illusion {
     }
 
     public function sliderChanged(name : String, value : Float) {
-    	//TODO: Constants for slider names!
-    	if (name == "slider1") {
+    	if (name == Constants.FIRST_SLIDER_ID) {
     		this.dotsNum = Std.int(value);
     		this.setVisibleDots();
-    	} else if (name == "slider2") {
+    	} else if (name == Constants.SECOND_SLIDER_ID) {
     		this.dotsSpeed = value;
     		this.lastDotsSpeed = this.dotsSpeed;
 

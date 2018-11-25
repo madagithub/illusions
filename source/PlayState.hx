@@ -2,6 +2,7 @@ package;
 
 using Lambda;
 using config.ConfigData;
+import config.Constants;
 
 import haxe.Json;
 import sys.io.File;
@@ -164,7 +165,6 @@ class PlayState extends FlxState
         FlxG.mouse.unload();
     }
 
-    //TODO: Constants
     private function createIllusion(name : String) {
         this.illusionData = this.config.illusions.find(function(illusion) return illusion.name == this.config.illusionName);
 
@@ -177,7 +177,7 @@ class PlayState extends FlxState
         }
 
         for (i in 0...SLIDERS_NUM) {
-            this.sliders.push(new Slider(this, i == 0 ? "slider1" : "slider2", this.slidersPositions[i], this.sliderChanged, this.sliderDragDone,
+            this.sliders.push(new Slider(this, i == 0 ? Constants.FIRST_SLIDER_ID : Constants.SECOND_SLIDER_ID, this.slidersPositions[i], this.sliderChanged, this.sliderDragDone,
                 illusionData.sliders[i].min, illusionData.sliders[i].max, illusionData.sliders[i].diff, illusionData.sliders[i].start, illusionData.sliders[i].limit));
         }
     }
