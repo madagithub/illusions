@@ -2,17 +2,17 @@
 	"maxLogFiles": 50,
 	"maxRowsPerLogFile": 20000,
 
-	"infoX": 1462,
-	"infoY": 1020,
+	"infoX": 432,
+	"infoY": 1002,
 
 	"stopButtonWidth": 115,
 	"stopButtonHeight": 55,
 
-	"stopButtonX": 1609,
+	"stopButtonX": 291,
 	"stopButtonY": 888,
 
-	"firstLanguageX": 1650,
-	"languageY": 1020,
+	"firstLanguageX": 135,
+	"languageY": 1005,
 	"languageSpacing": 24,
 
 	"idleSecondsAllowed": 300,
@@ -20,49 +20,49 @@
 	"handCursorOffsetX": 4,
 	"handCursorOffsetY": 6,
 
+	"illusionName": "biomotion",
+
 	"languages": [
 		{
 			"id": 0,
 			"rtl": 1,
-			"buttonSpritesheet": "hebrewSpritesheet",
-			"stopSpritesheet": "stopHebrew",
-			"backgroundImage": "backgroundHebrew",
+			"buttonSpritesheet": "frenchSpritesheet",
+			"stopSpritesheet": "stopFrench",
+			"backgroundImage": "backgroundParisFrench",
 			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "hebrewInfo"
+			"infoImage": "frenchParisInfo"
 		},
 		{
 			"id": 1,
-			"rtl": 1,
-			"buttonSpritesheet": "arabicSpritesheet",
-			"stopSpritesheet": "stopArabic",
-			"backgroundImage": "backgroundArabic",
-			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "infoArabic"
-		},
-		{
-			"id": 2,
 			"rtl": 0,
 			"buttonSpritesheet": "englishSpritesheet",
 			"stopSpritesheet": "stopEnglish",
-			"backgroundImage": "backgroundEnglish",
+			"backgroundImage": "backgroundParisEnglish",
 			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "infoEnglish"
+			"infoImage": "englishParisInfo"
+		},
+		{
+			"id": 2,
+			"rtl": 1,
+			"buttonSpritesheet": "spanishSpritesheet",
+			"stopSpritesheet": "stopSpanish",
+			"backgroundImage": "backgroundParisSpanish",
+			"infoSpritesheet": "infoSpritesheet",
+			"infoImage": "spanishParisInfo"
 		}
 	],
 
 	"startLanguageId": 0,
 
-	"illusionName": "dots",
-
 	"sliders": [
 		{
-			"x": 1426,
+			"x": 361,
 			"y": 369,
 			"width": 100,
 			"height": 377
 		},
 		{
-			"x": 1660,
+			"x": 127,
 			"y": 369,
 			"width": 100,
 			"height": 377
@@ -89,7 +89,7 @@
 				}
 			],
 			"dotsConfig": {
-				"x": 720,
+				"x": 1200,
 				"y": 580,
 				"width": 900,
 				"height": 900,

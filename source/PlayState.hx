@@ -195,6 +195,7 @@ class PlayState extends FlxState
 
     private function loadButton(x : Float, y : Float, spirtesheetName : String, onClick : Void -> Void, width : Int = 0, height : Int = 0) : FlxButton {
         var button : FlxButton = new FlxButton(x, y, "", onClick);
+
         button.loadGraphic(this.getFullSpritesheetPath(spirtesheetName), true, width, height);
         button.x -= button.width / 2;
         button.y -= button.height / 2;
