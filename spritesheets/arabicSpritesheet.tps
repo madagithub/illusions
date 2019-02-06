@@ -34,7 +34,7 @@
         <key>dataFormat</key>
         <string>spritesheet-only</string>
         <key>textureFileName</key>
-        <filename>hebrewSpritesheet.png</filename>
+        <filename>arabicSpritesheet.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -88,7 +88,7 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>53</int>
+            <int>51</int>
             <key>height</key>
             <int>153</int>
         </QSize>
@@ -175,9 +175,9 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">1_hebrewRegular.png</key>
-            <key type="filename">2_hebrewHover.png</key>
-            <key type="filename">3_hebrewPressed.png</key>
+            <key type="filename">1_arabicRegular.png</key>
+            <key type="filename">2_arabicHover.png</key>
+            <key type="filename">3_arabicPressed.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -193,9 +193,9 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>1_hebrewRegular.png</filename>
-            <filename>2_hebrewHover.png</filename>
-            <filename>3_hebrewPressed.png</filename>
+            <filename>1_arabicRegular.png</filename>
+            <filename>2_arabicHover.png</filename>
+            <filename>3_arabicPressed.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

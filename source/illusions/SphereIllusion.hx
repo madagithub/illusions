@@ -70,6 +70,7 @@ class SphereIllusion implements Illusion {
     public function sliderChanged(name : String, value : Float) {
     	if (name == Constants.FIRST_SLIDER_ID) {
     		this.dotsNum = Std.int(value);
+            this.lastDotsNum = this.dotsNum;
     		this.setVisibleDots();
     	} else if (name == Constants.SECOND_SLIDER_ID) {
     		this.dotsSpeed = value;

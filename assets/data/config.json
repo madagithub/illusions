@@ -37,7 +37,7 @@
 			"stopSpritesheet": "stopArabic",
 			"backgroundImage": "backgroundArabic",
 			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "infoArabic"
+			"infoImage": "arabicInfo"
 		},
 		{
 			"id": 2,
@@ -46,13 +46,13 @@
 			"stopSpritesheet": "stopEnglish",
 			"backgroundImage": "backgroundEnglish",
 			"infoSpritesheet": "infoSpritesheet",
-			"infoImage": "infoEnglish"
+			"infoImage": "englishInfo"
 		}
 	],
 
 	"startLanguageId": 0,
 
-	"illusionName": "dots",
+	"illusionName": "biomotion",
 
 	"sliders": [
 		{
@@ -99,7 +99,10 @@
 				"stopSpeed": 0,
 				"stopDotSize": 15,
 
-				"crossSize": 40
+				"crossSize": 40,
+
+				"dotsLocationRadius": 300,
+				"dotsLocationAngles": []
 			}
 		},
 		{
@@ -121,7 +124,7 @@
 				}
 			],
 			"sphereConfig": {
-				"x": 1200,
+				"x": 720,
 				"y": 580,
 				"width": 900,
 				"height": 900,
@@ -156,13 +159,13 @@
 				"stopSpeed": 1,
 				"stopDotsNum": 4,
 
-				"dotsOffsetX": 650,
+				"dotsOffsetX": 170,
 				"dotsOffsetY": 120,
 
-				"prevButtonX": 1100,
+				"prevButtonX": 620,
 				"prevButtonY": 870,
 
-				"nextButtonX": 1200,
+				"nextButtonX": 720,
 				"nextButtonY": 870,
 
 				"nextButtonSpritesheet": "rightSpritesheet",
