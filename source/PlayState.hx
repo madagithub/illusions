@@ -2,6 +2,7 @@ package;
 
 using Lambda;
 using config.ConfigData;
+import config.Config;
 
 import utils.Constants;
 
@@ -75,6 +76,7 @@ class PlayState extends FlxState
         this.toggleTween = null;
 
         this.config = Json.parse(File.getContent("assets/data/config.json"));
+        //this.config = Json.parse(Config.json("assets/data/config.json"));
 
         this.background = new FlxSprite();
         add(this.background);
