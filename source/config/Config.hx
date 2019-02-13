@@ -1,11 +1,9 @@
 package config;
 
-import sys.io.File;
-
 class Config {
 
 	macro public static function json(path : String) {
-		var value : String = File.getContent(path);
+		var value : String = sys.io.File.getContent(path);
 		return macro $v{value};
 	}
 }

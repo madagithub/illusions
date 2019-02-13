@@ -2,12 +2,12 @@ package;
 
 using Lambda;
 using config.ConfigData;
+
 import config.Config;
 
 import utils.Constants;
 
 import haxe.Json;
-import sys.io.File;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -62,6 +62,7 @@ class PlayState extends FlxState
     private var illusionData : IllusionData;
 
     private var logger : Logger;
+    
     private var config : ConfigData;
 
     private var slidersPositions : Array<FlxRect>;
@@ -75,8 +76,13 @@ class PlayState extends FlxState
 
         this.toggleTween = null;
 
-        this.config = Json.parse(File.getContent("assets/data/config.json"));
-        //this.config = Json.parse(Config.json("assets/data/config.json"));
+        #if desktop
+        this.config = Json.parse(sys.io.File.getContent("assets/data/config.json"));
+        #end
+
+        #if web
+        this.config = Json.parse(Config.json("assets/data/config.json"));
+        #end
 
         this.background = new FlxSprite();
         add(this.background);
