@@ -3,12 +3,12 @@
 ## General
 This exhibit shows three types of illusions, according to a value in its config, that show some kind of visual, and allow changing parameters with sliders.
 
-The tree types of illusions shown are:
+The three types of illusions shown are:
 - **Dots:** Shows three dots over a turning circle pattern. By focusing on the center, the dots appear to disappear. The size of the dots and speed of turning can be changed to see how the illusion changes accordingly.
 - **Sphere:** Shows a sphere drawn by several dots (and not the entire sphere) moving, giving the feeling of a sphere turning. However, it can appear turning to both ways. The number of dots and speed of turning can be changed to see how the illusion chnages accordingly. A stop button allows to breifly stopping the animation, showing the effect fades completely on stop.
 - **Bio-Motion**: Arrow buttons can be used to switch between different characters anaimations comprised of dots only. The dots number and the speed of the animation can be changed to see when of a character movement appears. A stop button allows to breifly stopping the animation, showing the effect fades completely on stop.
 
-The ehibit supports Hebrew, English and Arabic and allows to change languages with buttons.
+The exhibit supports Hebrew, English and Arabic and allows changing languages with buttons.
 It is designed to work with a computer connected to a screen and a mouse.
 
 ## Installation & Run
