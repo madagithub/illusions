@@ -74,11 +74,11 @@ class DotsIllusion implements Illusion {
     }
 
     public function sliderChanged(name : String, value : Float) {
-    	if (name == Constants.FIRST_SLIDER_ID) {
+    	if (name == Constants.SECOND_SLIDER_ID) {
     		this.dotsSize = Std.int(value);
     		this.lastDotsSize = this.dotsSize;
     		this.redraw();
-    	} else if (name == Constants.SECOND_SLIDER_ID) {
+    	} else if (name == Constants.FIRST_SLIDER_ID) {
     		this.degreesPerSecond = value;
     		this.lastDegreesPerSecond = this.degreesPerSecond;
     		this.updateBackgroundRotation();
