@@ -94,15 +94,10 @@
 				"width": 900,
 				"height": 900,
 
-				"dotSize": 20,
-
 				"stopSpeed": 0,
 				"stopDotSize": 15,
 
-				"crossSize": 40,
-
-				"dotsLocationRadius": 300,
-				"dotsLocationAngles": []
+				"crossSize": 40
 			}
 		},
 		{
